@@ -5,113 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apresentação | Big Data</title>
     <style>
-        :root {
-    --primary-color: #00d4ff; /* Azul Ciano Tecnológico */
-    --secondary-color: #64ffda; /* Verde Água */
-    --bg-dark: #020c1b; /* Azul Quase Preto */
-    --card-bg: rgba(17, 34, 64, 0.7); /* Transparência para o efeito glass */
-    --text-main: #ccd6f6;
-    --text-dim: #8892b0;
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&display=swap');
+
+:root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #bc13fe;
+    --dark-void: #050505;
+    --grid-color: rgba(0, 243, 255, 0.05);
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-main);
+    background-color: var(--dark-void);
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 30px 30px; /* Grade de fundo tecnológica */
+    color: #fff;
+    font-family: 'Fira Code', monospace;
     margin: 0;
-    overflow-x: hidden;
-}
-
-/* Fundo com efeito de partículas estáticas */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: radial-gradient(circle at 50% 50%, #112240 0%, #020c1b 100%);
-    z-index: -1;
+    scroll-behavior: smooth;
 }
 
 header {
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    border-bottom: 2px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    background: radial-gradient(circle, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
 }
 
 h1 {
-    font-size: clamp(3rem, 10vw, 5rem);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5rem;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
     margin: 0;
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -2px;
+}
+
+/* Efeito de Scanline (Linhas de TV antiga) */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 999;
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 100px 20px;
 }
 
-/* Estilização dos Cards dos 5 Vs */
-.v5-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-}
-
+/* Cards com bordas chanfradas */
 .card {
-    background: var(--card-bg);
-    backdrop-filter: blur(10px); /* Efeito de vidro */
-    padding: 30px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(100, 255, 218, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid var(--neon-blue);
+    padding: 30px;
+    clip-path: polygon(0% 0%, 95% 0%, 100% 15%, 100% 100%, 5% 100%, 0% 85%);
+    transition: 0.4s;
+    position: relative;
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    border-color: var(--secondary-color);
-    box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+    transform: scale(1.02);
 }
 
 .card h3 {
-    color: var(--secondary-color);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
-
-/* Seções com animação de entrada */
-section {
-    margin-bottom: 120px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
-}
-
-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+    font-family: 'Orbitron', sans-serif;
+    color: var(--neon-purple);
+    text-shadow: 0 0 5px var(--neon-purple);
 }
 
 h2 {
-    color: var(--primary-color);
-    font-size: 2rem;
-    border-left: 4px solid var(--secondary-color);
-    padding-left: 15px;
-    margin-bottom: 30px;
+    font-family: 'Orbitron', sans-serif;
+    border-left: 10px solid var(--neon-purple);
+    padding-left: 20px;
+    color: #fff;
+    text-transform: uppercase;
 }
 
-footer {
-    padding: 60px;
-    text-align: center;
-    color: var(--text-dim);
-    border-top: 1px solid rgba(100, 255, 218, 0.1);
+/* Botão ou links com estilo de interface de hacker */
+.btn-tech {
+    padding: 15px 30px;
+    border: 1px solid var(--neon-blue);
+    background: transparent;
+    color: var(--neon-blue);
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-tech:hover {
+    background: var(--neon-blue);
+    color: var(--dark-void);
+    box-shadow: 0 0 20px var(--neon-blue);
 }
     </style>
 </head>
