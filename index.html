@@ -92,7 +92,11 @@
             align-items: center;
             gap: 15px;
         }
-
+        <header>
+            <div class="neuron-network"></div> <h1>BIG DATA</h1>
+            <p>REDEFININDO O POSSÍVEL</p>
+        </header>
+        
         /* Cards Estilo Dashboard */
         .v5-grid {
             display: grid;
@@ -158,9 +162,135 @@
             border-top: 1px solid rgba(0, 243, 255, 0.1);
             color: #444;
         }
-
+        /* Estilo para a Rede Neural */
+        .neuron-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1; /* Fica atrás do texto */
+        }
+        
+        .neuron-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: var(--neon-purple);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: pulse 2s infinite alternate; /* Animação de pulsar */
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        .neuron-line {
+            position: absolute;
+            height: 1px;
+            background-color: var(--neon-blue);
+            opacity: 0.3;
+            transform-origin: 0 0;
+            animation: fadeIn 3s forwards;
+            transition: background-color 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; box-shadow: 0 0 10px var(--neon-purple); }
+            100% { transform: scale(1.5); opacity: 1; box-shadow: 0 0 20px var(--neon-blue); }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 0.3; }
+        }
+        
+        /* Ajustes no h1 e p do header para ficarem visíveis sobre a rede */
+        header h1, header p {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
+    <script>
+    // Script para a animação da rede neural
+    const neuronNetwork = document.querySelector('.neuron-network');
+    const numNodes = 50; // Quantidade de "neurônios"
+    const nodes = [];
+    const maxLineDistance = 150; // Distância máxima para conectar neurônios
+
+    // Cria os neurônios
+    for (let i = 0; i < numNodes; i++) {
+        const node = document.createElement('div');
+        node.classList.add('neuron-node');
+        node.style.left = `${Math.random() * 100}%`;
+        node.style.top = `${Math.random() * 100}%`;
+        neuronNetwork.appendChild(node);
+        nodes.push(node);
+    }
+
+    // Desenha as linhas de conexão
+    function drawLines() {
+        // Remove linhas antigas para redesenhar
+        document.querySelectorAll('.neuron-line').forEach(line => line.remove());
+
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeA = nodes[i].getBoundingClientRect();
+                const nodeB = nodes[j].getBoundingClientRect();
+
+                const distance = Math.sqrt(
+                    Math.pow(nodeB.left - nodeA.left, 2) +
+                    Math.pow(nodeB.top - nodeA.top, 2)
+                );
+
+                if (distance < maxLineDistance) {
+                    const line = document.createElement('div');
+                    line.classList.add('neuron-line');
+                    
+                    const angle = Math.atan2(nodeB.top - nodeA.top, nodeB.left - nodeA.left) * 180 / Math.PI;
+                    
+                    line.style.width = `${distance}px`;
+                    line.style.left = `${nodeA.left + window.scrollX + nodeA.width / 2}px`;
+                    line.style.top = `${nodeA.top + window.scrollY + nodeA.height / 2}px`;
+                    line.style.transform = `rotate(${angle}deg)`;
+                    
+                    // Ajusta a opacidade da linha baseada na distância (mais perto = mais forte)
+                    line.style.opacity = `${0.3 - (distance / maxLineDistance * 0.2)}`;
+
+                    neuronNetwork.appendChild(line);
+                }
+            }
+        }
+    }
+
+    // Redesenha as linhas quando a janela é redimensionada
+    window.addEventListener('resize', drawLines);
+    // Desenha as linhas inicialmente
+    drawLines();
+
+    // Adiciona interatividade: linhas brilham ao passar o mouse perto dos neurônios
+    neuronNetwork.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        document.querySelectorAll('.neuron-line').forEach(line => {
+            const lineRect = line.getBoundingClientRect();
+            // Calcula a distância do mouse para a linha
+            const distToLine = Math.sqrt(
+                Math.pow(mouseX - (lineRect.left + lineRect.width / 2), 2) +
+                Math.pow(mouseY - (lineRect.top + lineRect.height / 2), 2)
+            );
+
+            if (distToLine < 80) { // Se o mouse estiver perto da linha
+                line.style.backgroundColor = var(--neon-blue); // Brilho azul
+                line.style.opacity = 0.8;
+            } else {
+                line.style.backgroundColor = var(--neon-blue); // Volta à cor padrão
+                line.style.opacity = 0.3;
+            }
+        });
+    });
+</script>
 <body>
 
     <div class="grid-overlay"></div>
