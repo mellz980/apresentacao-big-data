@@ -3,477 +3,623 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIG DATA | NERVE CENTER v4.0</title>
-   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
-   
+    <title>DATA_STREAM // Big Data Analytics</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
-            --bg-dark: #050005;
-            --neon-purple: #b117b1;
-            --neon-blue: #ff04b7;
-            --neon-green: #ff71ce;
-            --neon-pink: #ffb5ff;
-            --glass: rgba(255, 0, 255, 0.07);
-            --border-glass: rgba(255, 0, 255, 0.3);
-            --font-main: 'Fira Code', monospace;
-            --font-tech: 'Orbitron', sans-serif;
-}
-    }
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.7);
+            --neon-pink: #ff007f;
+            --neon-pink-glow: rgba(255, 0, 127, 0.5);
+            --accent-purple: #6a0dad;
+            --text-main: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        /* --- Global Reset & Scrollbar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
 
         body {
             background-color: var(--bg-dark);
-            color: #fce7f3;
-            font-family: var(--font-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* --- BACKGROUND: DATA RAIN CANVAS --- */
-        #dataCanvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            opacity: 0.3;
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 10px; }
+
+        /* --- Background Canvas --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a0b1a 0%, #0a0a0f 100%);
         }
 
-        /* --- SCANLINE & OVERLAYS --- */
-        .scanline {
-            width: 100%; height: 10px; z-index: 1000; pointer-events: none;
-            background: linear-gradient(to bottom, transparent, var(--neon-pink), transparent);
-            opacity: 0.1; position: fixed;
-            animation: scanlineMove 6s linear infinite;
+        /* --- Header & Progress Bar --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-purple), var(--neon-pink));
+            width: 0%;
+            z-index: 2000;
         }
-        @keyframes scanlineMove { 0% { top: -10%; } 100% { top: 110%; } }
 
-        /* --- HEADER ULTRA ANIMADO --- */
         header {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            background: radial-gradient(circle at center, #1a001a 0%, #000 100%);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
         }
 
-        .tech-grid-3d {
+        header.scrolled { padding: 10px 5%; background: rgba(10, 10, 15, 0.9); }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--neon-pink);
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon-pink-glow);
+        }
+
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: var(--transition);
+        }
+        nav a::after {
+            content: '';
             position: absolute;
-            width: 200%; height: 200%;
-            top: -50%; left: -50%;
-            background-image:
-                linear-gradient(transparent 0%, rgba(255, 0, 255, 0.2) 1px, transparent 2%),
-                linear-gradient(90deg, transparent 0%, rgba(255, 45, 149, 0.1) 1px, transparent 2%);
-            background-size: 80px 80px;
-            transform: rotateX(75deg);
-            animation: moveGrid 3s linear infinite;
-            z-index: 1;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-pink);
+            transition: var(--transition);
         }
-        @keyframes moveGrid { 0% { background-position: 0 0; } 100% { background-position: 0 80px; } }
+        nav a:hover::after { width: 100%; }
 
-        /* --- HUD ELEMENTS --- */
-        .hud-element {
-            position: absolute; padding: 15px; font-size: 0.65rem;
-            color: var(--neon-blue); font-family: var(--font-tech);
-            border: 1px solid var(--border-glass); background: rgba(0, 0, 0, 0.8);
-            z-index: 15; text-transform: uppercase; letter-spacing: 2px;
-            backdrop-filter: blur(5px);
-        }
-        .top-left { top: 20px; left: 20px; border-left: 5px solid var(--neon-pink); }
-        .top-right { top: 20px; right: 20px; border-right: 5px solid var(--neon-blue); text-align: right; }
-        .bottom-left { bottom: 20px; left: 20px; border-bottom: 5px solid var(--neon-purple); }
-
-        /* --- CENTRAL CONTENT --- */
-        .header-content {
-            z-index: 10; text-align: center;
-            padding: 50px; border-radius: 20px;
-        }
-
-        .hero-title {
-            font-family: var(--font-tech);
-            font-size: clamp(3rem, 12vw, 6.5rem);
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-purple);
-            letter-spacing: clamp(10px, 5vw, 25px);
-            margin-bottom: 15px;
-            animation: neonPulse 2s infinite alternate;
-        }
-        @keyframes neonPulse { from { opacity: 0.8; } to { opacity: 1; text-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-purple); } }
-
-        .hero-stats {
-            display: flex; gap: 35px; justify-content: center; margin-top: 50px; flex-wrap: wrap;
-        }
-        .stat-box {
-            background: rgba(255, 0, 255, 0.04);
-            border: 2px solid var(--neon-blue);
-            padding: 40px 30px;
-            min-width: 260px;
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 4px;
-            box-shadow: inset 0 0 20px rgba(255, 0, 255, 0.1);
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--neon-pink), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .typewriter {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            min-height: 1.5em;
+            margin-bottom: 40px;
+        }
+
+        /* --- Advanced Buttons --- */
+        .btn-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+        .btn {
+            padding: 15px 35px;
+            font-family: 'Orbitron', sans-serif;
+            border: none;
+            cursor: pointer;
             position: relative;
-        }
-        .stat-box:hover {
-            transform: translateY(-12px);
-            background: rgba(255, 0, 255, 0.12);
-            box-shadow: 0 0 40px rgba(255, 0, 255, 0.4);
-            border-color: #fff;
-        }
-        .stat-box i {
-            font-size: 4rem;
-            color: var(--neon-blue);
-            margin-bottom: 25px;
-            filter: drop-shadow(0 0 12px var(--neon-blue));
-        }
-        .stat-box span { display: block; font-size: 2.5rem; color: var(--neon-pink); font-weight: 900; text-shadow: 0 0 15px var(--neon-pink); margin-bottom: 10px; font-family: var(--font-tech);}
-        .stat-box small { font-size: 0.8rem; color: #e0e0e0; letter-spacing: 3px; font-weight: 500; text-transform: uppercase; opacity: 0.8; }
-
-        /* --- CONTAINER E CARDS --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
-
-        .glass-card {
-            background: rgba(20, 0, 20, 0.8);
-            border: 1px solid var(--border-glass);
-            padding: 40px; border-radius: 5px;
-            position: relative; overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 1);
-        }
-        .glass-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
-            animation: lineFlow 3s linear infinite;
-        }
-        @keyframes lineFlow { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-        /* --- TERMINAL --- */
-        .terminal-container {
-            display: flex; flex-direction: row;
-            background: #000; border: 1px solid var(--neon-blue);
-            min-height: 500px; border-radius: 4px; overflow: hidden;
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.15);
+            overflow: hidden;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: var(--transition);
         }
 
-        .terminal-sidebar { width: 280px; background: #0a000a; border-right: 1px solid var(--border-glass); }
-
-        .v-btn {
-            width: 100%; padding: 25px; background: transparent; border: none;
-            color: #774477; font-family: var(--font-tech); cursor: pointer; transition: 0.3s;
-            text-align: left; border-bottom: 1px solid rgba(255,0,255,0.05);
-            font-size: 0.9rem;
-        }
-        .v-btn:hover { color: #fff; background: rgba(255,0,255,0.05); }
-        .v-btn.active {
-            color: var(--neon-pink); background: rgba(255, 0, 255, 0.08);
-            border-left: 4px solid var(--neon-pink);
+        /* Neon Pulsing */
+        .btn-neon {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 15px var(--neon-pink-glow);
+            animation: pulse-glow 2s infinite;
         }
 
-        .terminal-content { flex: 1; padding: 50px; position: relative; }
-        .content-panel { display: none; animation: terminalFade 0.5s ease; }
-        .content-panel.active { display: block; }
-
-        @keyframes terminalFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-
-        .data-item {
-            background: rgba(255, 255, 255, 0.03); padding: 25px; border-radius: 2px;
-            margin-top: 20px; border-left: 4px solid var(--neon-blue);
-            font-size: 1.1rem; line-height: 1.6;
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px var(--neon-pink-glow); }
+            50% { box-shadow: 0 0 25px var(--neon-pink-glow); }
+            100% { box-shadow: 0 0 5px var(--neon-pink-glow); }
         }
 
-        footer { text-align: center; padding: 100px; border-top: 1px solid var(--border-glass); opacity: 0.6; }
+        /* Glitch Button */
+        .btn-glitch {
+            background: var(--accent-purple);
+            color: white;
+        }
+        .btn-glitch:hover {
+            animation: glitch-anim 0.3s infinite;
+            background: var(--neon-pink);
+        }
 
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        /* --- Sections Style --- */
+        section { padding: 100px 10%; position: relative; }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section-title span { color: var(--neon-pink); }
+
+        /* Glass Cards */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-pink);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+        }
+
+        /* --- Scroll Reveal --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Stats Section --- */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-size: 3.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-pink);
+            display: block;
+        }
+
+        /* --- FAQ Accordion --- */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            background: var(--bg-card);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            border-left: 4px solid var(--accent-purple);
+        }
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0,1,0,1);
+            color: var(--text-dim);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 20px 20px 20px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 50px 10%;
+            background: #050508;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        .social-links { margin: 20px 0; display: flex; justify-content: center; gap: 20px; }
+        .social-links a { color: var(--text-main); font-size: 1.5rem; transition: var(--transition); }
+        .social-links a:hover { color: var(--neon-pink); transform: scale(1.2); }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .terminal-container { flex-direction: column; }
-            .terminal-sidebar { width: 100%; display: flex; overflow-x: auto; }
-            .v-btn { white-space: nowrap; padding: 15px; }
-            .stat-box { min-width: 200px; padding: 30px 20px; }
-            .stat-box i { font-size: 3rem; }
-            .stat-box span { font-size: 2rem; }
+            header { padding: 15px 5%; }
+            nav { display: none; } /* Simplified for mobile example */
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="scanline"></div>
+    <div id="scroll-progress"></div>
+    <canvas id="particle-canvas"></canvas>
 
-    <header>
-        <canvas id="dataCanvas"></canvas>
-        <div class="tech-grid-3d"></div>
-
-
-        <div class="hud-element top-left">
-            > MELISSA NUNES DE OLIVEIRA<br>
-            > DAVI LIN BRAGA<br>
-            > LUCCA CAPPELLANO<br>
-            > DAVI MAIA CHIEREGATE
-        </div>
-
-        <div class="hud-element top-right">
-            HORA: <span id="live-clock">00:00:00</span><br>
-            A INOVAÇÃO CHEGOU.
-        </div>
-
-        <div class="header-content">
-            <p style="color: var(--neon-blue); letter-spacing: 8px; margin-bottom: 15px; font-weight: bold; text-shadow: 0 0 10px var(--neon-blue);">
-                [ PROCESSANDO DADOS EM TEMPO REAL ]
-            </p>
-           
-            <h1 class="hero-title">BIG DATA</h1>
-           
-            <div class="hero-stats">
-                <div class="stat-box">
-                    <i class="fas fa-database"></i>
-                    <span>2.5Q</span>
-                    <small>BYTES / DIA</small>
-                </div>
-
-                <div class="stat-box">
-                    <i class="fas fa-bolt"></i>
-                    <span>90%</span>
-                    <small>DADOS RECENTES</small>
-                </div>
-
-                <div class="stat-box">
-                    <i class="fas fa-microchip"></i>
-                    <span>320TB</span>
-                    <small>UPLOAD MÉDIO/S</small>
-                </div>
-            </div>
-
-            <p style="font-family: var(--font-tech); color: var(--neon-purple); margin-top: 45px; letter-spacing: 3px; opacity: 0.9; text-shadow: 0 0 5px var(--neon-purple);">
-                INTERFACE DE INTELIGÊNCIA PREDITIVA v4.0
-            </p>
-        </div>
-
-        <div style="position: absolute; bottom: 30px; color: var(--neon-pink); font-size: 2rem; animation: bounce 2s infinite;">
-            <i class="fas fa-angle-double-down"></i>
-        </div>
+    <header id="main-header">
+        <div class="logo">DATA_STREAM</div>
+        <nav>
+            <ul>
+                <li><a href="#about">Conceito</a></li>
+                <li><a href="#5vs">Os 5 Vs</a></li>
+                <li><a href="#tech">Tecnologia</a></li>
+                <li><a href="#stats">Impacto</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="container">
-        <section style="margin-bottom: 120px;">
-            <div style="font-family: var(--font-tech); color: var(--neon-purple); margin-bottom: 25px;">
-                <h2>// ANÁLISE ESTRATÉGICA</h2>
+    <section class="hero">
+        <h1 id="hero-title">O PODER DOS DADOS</h1>
+        <div class="typewriter" id="typewriter"></div>
+        <div class="btn-container">
+            <button class="btn btn-neon ripple">Explorar Fluxo</button>
+            <button class="btn btn-glitch">Sistema Ativo</button>
+            <button class="btn magnetic" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border);">Documentação</button>
+        </div>
+    </section>
+
+    <section id="about" class="reveal">
+        <h2 class="section-title">O QUE É <span>BIG DATA?</span></h2>
+        <div class="grid-layout">
+            <div class="card">
+                <p>Big Data refere-se a conjuntos de dados tão volumosos e complexos que softwares de processamento de dados tradicionais são incapazes de gerenciá-los. Não é apenas sobre o tamanho, mas sobre as possibilidades de extrair inteligência do caos.</p>
             </div>
-            <div class="glass-card">
-                <p style="font-size: 1.4rem; line-height: 1.8;">
-                    O Big Data não é apenas tecnologia, é o <strong>poder da narrativa baseada em evidências</strong>. Como comunicadora, seu papel é decodificar esses padrões. <span style="color: var(--neon-blue);">Abaixo, explore os pilares que sustentam essa revolução.</span>
-                </p>
+            <div class="card" style="border-color: var(--accent-purple);">
+                <p>Na era da hiperconectividade, cada clique, sensor e transação gera um rastro digital. Big Data é o motor que transforma esses rastros em decisões estratégicas em tempo real.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="v5-terminal">
-            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-pink);">
-                TERMINAL_DE_DADOS: OS 5 Vs
-            </h2>
-
-            <div class="terminal-container">
-                <div class="terminal-sidebar">
-                    <button class="v-btn active" onclick="openV(event, 'volume')">
-                        <i class="fas fa-database"></i> V1_VOLUME
-                    </button>
-                    <button class="v-btn" onclick="openV(event, 'velocidade')">
-                        <i class="fas fa-tachometer-alt"></i> V2_VELOCIDADE
-                    </button>
-                    <button class="v-btn" onclick="openV(event, 'variedade')">
-                        <i class="fas fa-layer-group"></i> V3_VARIEDADE
-                    </button>
-                    <button class="v-btn" onclick="openV(event, 'veracidade')">
-                        <i class="fas fa-shield-check"></i> V4_VERACIDADE
-                    </button>
-                    <button class="v-btn" onclick="openV(event, 'valor')">
-                        <i class="fas fa-gem"></i> V5_VALOR
-                    </button>
-                </div>
-
-                <div class="terminal-content">
-                    <div id="volume" class="content-panel active">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUANTIDADE BRUTA ]</h2>
-                        <div class="data-item">O processamento de trilhões de gigabytes exige infraestrutura distribuída (Cloud & Edge Computing). O volume transforma o "armazenamento" em "estratégia".</div>
-                    </div>
-
-                    <div id="velocidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FLUXO EM TEMPO REAL ]</h2>
-                        <div class="data-item">Dados que expiram rápido. A análise precisa ocorrer no fluxo (Streaming) para gerar respostas imediatas antes que a oportunidade desapareça.</div>
-                    </div>
-
-                    <div id="variedade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ CAOS ESTRUTURADO ]</h2>
-                        <div class="data-item">Vídeos, áudios, textos e sensores IoT. O Big Data integra o mundo estruturado e o caos não-estruturado em uma única visão.</div>
-                    </div>
-
-                    <div id="veracidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FILTRAGEM DE RUÍDO ]</h2>
-                        <div class="data-item">Qualidade acima de tudo. Sem veracidade, algoritmos tornam-se armas de desinformação. O dado precisa ser limpo e confiável.</div>
-                    </div>
-
-                    <div id="valor" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ O PROPÓSITO FINAL ]</h2>
-                        <div class="data-item">Transformar bits em lucro ou impacto social. Dados sem valor são apenas custo; com valor, tornam-se o novo petróleo.</div>
-                    </div>
-                </div>
+    <section id="5vs" class="reveal">
+        <h2 class="section-title">OS 5 Vs DA <span>MAESTRIA</span></h2>
+        <div class="grid-layout">
+            <div class="card">
+                <i class="fas fa-database"></i>
+                <h3>Volume</h3>
+                <p>Zettabytes de informações geradas diariamente de redes sociais a dispositivos IoT.</p>
             </div>
-
-            <div id="botao-link-container" style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
-                <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
-                    <i class="fas fa-external-link-alt"></i> DEMONSTRAÇÃO NASA EYES
-                </a>
+            <div class="card">
+                <i class="fas fa-bolt"></i>
+                <h3>Velocidade</h3>
+                <p>O fluxo de dados é instantâneo e precisa ser processado em tempo real.</p>
             </div>
-        </section>
-    </div>
+            <div class="card">
+                <i class="fas fa-random"></i>
+                <h3>Variedade</h3>
+                <p>Dados estruturados (SQL) e não estruturados (Vídeos, áudios, JSON, logs).</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-check-double"></i>
+                <h3>Veracidade</h3>
+                <p>A qualidade e a confiabilidade do dado são cruciais para a análise correta.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Valor</h3>
+                <p>O propósito final: transformar dados brutos em lucro, eficiência ou progresso.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech" class="reveal">
+        <h2 class="section-title">ECOSSISTEMA <span>TÉCNICO</span></h2>
+        <div class="grid-layout">
+            <div class="card">
+                <h3>Apache Hadoop</h3>
+                <p>Framework para armazenamento distribuído (HDFS) e processamento de grandes clusters.</p>
+            </div>
+            <div class="card">
+                <h3>Apache Spark</h3>
+                <p>Processamento ultra-rápido em memória para análises complexas e Machine Learning.</p>
+            </div>
+            <div class="card">
+                <h3>NoSQL</h3>
+                <p>Bancos de dados flexíveis como MongoDB e Cassandra para escalabilidade infinita.</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 50px; background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border);">
+            <canvas id="dataChart" height="100"></canvas>
+        </div>
+    </section>
+
+    <section id="stats" class="reveal">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number" data-target="175">0</span>
+                <p>Zettabytes até 2025</p>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="90">0</span>
+                <p>% Dados Gerados nos Últimos 2 Anos</p>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="450">0</span>
+                <p>ROI Médio em Projetos de IA</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="reveal">
+        <h2 class="section-title">FAQ <span>SISTÊMICO</span></h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">Qual a diferença entre Big Data e Data Science? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer">Big Data é o ativo (os dados massivos), enquanto Data Science é a metodologia e o estudo para extrair insights desses dados.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Big Data viola a privacidade? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer">Depende da implementação. Ética e LGPD são pilares fundamentais para garantir que o processamento respeite o anonimato dos usuários.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">O que é um Data Lake? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer">É um repositório centralizado que permite armazenar todos os seus dados estruturados e não estruturados em qualquer escala.</div>
+            </div>
+        </div>
+    </section>
 
     <footer>
-        <p style="color: var(--neon-pink); font-family: var(--font-tech);">INTERFACE | BY MELISSA | 2026</p>
+        <div class="logo">DATA_STREAM</div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2026 Futurist Data Intelligence. Todos os direitos reservados.</p>
     </footer>
 
-    <style>
-        /* CSS REFINADO PARA O TERMINAL */
-        .terminal-container {
-            display: flex;
-            background: rgba(10, 0, 10, 0.95);
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-            border-radius: 4px;
-            min-height: 400px;
-            overflow: hidden;
-        }
-
-        .terminal-sidebar {
-            width: 250px;
-            background: rgba(20, 0, 20, 1);
-            border-right: 1px solid var(--border-glass);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .v-btn {
-            background: transparent;
-            border: none;
-            color: #666;
-            padding: 20px;
-            text-align: left;
-            font-family: var(--font-tech);
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .v-btn i { margin-right: 10px; width: 20px; }
-
-        .v-btn:hover {
-            color: var(--neon-blue);
-            background: rgba(0, 242, 255, 0.05);
-        }
-
-        .v-btn.active {
-            color: #fff;
-            background: rgba(255, 0, 127, 0.15);
-            border-left: 4px solid var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        /* Efeito de carregamento no botão ativo */
-        .v-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            height: 2px; width: 100%;
-            background: var(--neon-pink);
-            animation: btnLoad 2s infinite linear;
-        }
-        @keyframes btnLoad { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-        .terminal-content {
-            flex: 1;
-            padding: 40px;
-            background: radial-gradient(circle at center, rgba(30,0,30,1) 0%, rgba(0,0,0,1) 100%);
-        }
-
-        .content-panel {
-            display: none;
-            animation: panelIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-        }
-
-        .content-panel.active { display: block; }
-
-        @keyframes panelIn {
-            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
-            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        .btn-terminal {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 25px;
-            border: 1px solid var(--neon-pink);
-            color: var(--neon-pink);
-            font-family: var(--font-tech);
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .btn-terminal:hover {
-            background: var(--neon-pink);
-            color: #000;
-            box-shadow: 0 0 20px var(--neon-pink);
-        }
-    </style>
-
     <script>
-        // Função de troca de abas corrigida
-        function openV(evt, vName) {
-            const panels = document.querySelectorAll(".content-panel");
-            const buttons = document.querySelectorAll(".v-btn");
+        // --- 1. Canvas Particles Engine ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-            panels.forEach(p => p.classList.remove("active"));
-            buttons.forEach(b => b.classList.remove("active"));
-
-            document.getElementById(vName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        // Relógio
-        setInterval(() => {
-            const clock = document.getElementById('live-clock');
-            if(clock) clock.innerText = new Date().toLocaleTimeString('pt-BR');
-        }, 1000);
+        window.addEventListener('resize', resize);
+        resize();
 
-        // Matrix Rain
-        const canvas = document.getElementById('dataCanvas');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        const columns = Math.floor(width / 15);
-        const drops = new Array(columns).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(5, 0, 5, 0.1)";
-            ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = "#ff00ff";
-            ctx.font = "15px monospace";
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = Math.floor(Math.random() * 2);
-                ctx.fillText(text, i * 15, drops[i] * 15);
-                if (drops[i] * 15 > height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.color = Math.random() > 0.5 ? '#ff007f' : '#6a0dad';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
-        setInterval(drawMatrix, 50);
 
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        function initParticles() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        initParticles();
+        animate();
+
+        // --- 2. Typewriter Effect ---
+        const text = "Analisando trilhões de conexões para moldar o amanhã...";
+        let index = 0;
+        function typewriter() {
+            if (index < text.length) {
+                document.getElementById('typewriter').innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typewriter, 50);
+            }
+        }
+        window.onload = typewriter;
+
+        // --- 3. Scroll Effects ---
+        window.addEventListener('scroll', () => {
+            // Progress Bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+
+            // Header Background
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+
+            // Reveal Sections
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(r => {
+                const windowHeight = window.innerHeight;
+                const revealTop = r.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 150) r.classList.add('active');
+            });
+        });
+
+        // --- 4. Counter Animation ---
+        const counters = document.querySelectorAll('.stat-number');
+        const observerOptions = { threshold: 1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    let count = 0;
+                    const updateCount = () => {
+                        const increment = target / 100;
+                        if (count < target) {
+                            count += increment;
+                            entry.target.innerText = Math.ceil(count);
+                            setTimeout(updateCount, 20);
+                        } else {
+                            entry.target.innerText = target;
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        counters.forEach(c => observer.observe(c));
+
+        // --- 5. Interactive Buttons & Ripple ---
+        document.querySelectorAll('.ripple').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let x = e.clientX - e.target.offsetLeft;
+                let y = e.clientY - e.target.offsetTop;
+                let ripples = document.createElement('span');
+                ripples.style.left = x + 'px';
+                ripples.style.top = y + 'px';
+                this.appendChild(ripples);
+                setTimeout(() => ripples.remove(), 1000);
+            });
+        });
+
+        // Magnetic Effect
+        document.querySelectorAll('.magnetic').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+
+        // --- 6. FAQ Accordion ---
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+                const icon = q.querySelector('i');
+                icon.classList.toggle('fa-plus');
+                icon.classList.toggle('fa-minus');
+            });
+        });
+
+        // --- 7. Chart.js Implementation ---
+        const ctxChart = document.getElementById('dataChart').getContext('2d');
+        new Chart(ctxChart, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [{
+                    label: 'Volume de Dados Global (Zettabytes)',
+                    data: [40, 64, 79, 120, 147, 175, 210],
+                    borderColor: '#ff007f',
+                    backgroundColor: 'rgba(255, 0, 127, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#fff', font: { family: 'Orbitron' } } } },
+                scales: {
+                    y: { ticks: { color: '#a0a0a0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { ticks: { color: '#a0a0a0' }, grid: { display: false } }
+                }
+            }
         });
     </script>
 </body>
