@@ -315,31 +315,40 @@
                     <button class="v-btn" onclick="openV(event, 'valor')">V5_VALOR</button>
                 </div>
 
-                <div class="terminal-content">
-                    <div id="volume" class="content-panel active">
-                        <h2 style="color: var(--neon-pink); font-family: var(--font-tech);">QUANTIDADE BRUTA</h2>
-                        <div class="data-item">O processamento de trilhões de gigabytes exige infraestrutura distribuída (Cloud & Edge Computing).</div>
-                    </div>
+               <div class="terminal-content">
+    <div class="loading-bar-container">
+        <div class="loading-bar" id="data-loader"></div>
+    </div>
 
-                    <div id="velocidade" class="content-panel">
-                        <h2 style="color: var(--neon-pink); font-family: var(--font-tech);">PROCESSAMENTO REAL-TIME</h2>
-                        <div class="data-item">Dados que expiram rápido. A análise precisa ocorrer no fluxo (Streaming) para gerar respostas imediatas.</div>
-                    </div>
-
-                    <div id="variedade" class="content-panel">
-                        <h2 style="color: var(--neon-pink); font-family: var(--font-tech);">DIVERSIDADE DE FONTES</h2>
-                        <div class="data-item">Vídeos, áudios, textos NoSQL e sensores IoT. O Big Data integra o mundo estruturado e o caos não-estruturado.</div>
-                    </div>
-
-                    <div id="veracidade" class="content-panel">
-                        <h2 style="color: var(--neon-pink); font-family: var(--font-tech);">QUALIDADE DO DADO</h2>
-                        <div class="data-item">Filtragem de ruídos e fake news. Sem veracidade, a análise leva a decisões catastróficas.</div>
-                    </div>
-
-                    <div id="valor" class="content-panel">
-                        <h2 style="color: var(--neon-pink); font-family: var(--font-tech);">O PRODUTO FINAL</h2>
-                        <div class="data-item">Transformar dados em lucro, estratégia ou impacto social. É onde a ciência encontra o propósito.</div>
-                    </div>
+    <div id="volume" class="content-panel active">
+    
+            /* Container da barra (fixo no topo do conteúdo) */
+            .loading-bar-container {
+                width: 100%;
+                height: 2px;
+                background: rgba(0, 243, 255, 0.1);
+                margin-bottom: 20px;
+                overflow: hidden;
+            }
+            
+            /* A barra em si */
+            .loading-bar {
+                width: 0%; /* Começa vazia */
+                height: 100%;
+                background: var(--neon-blue);
+                box-shadow: 0 0 10px var(--neon-blue);
+            }
+            
+            /* Classe que dispara a animação */
+            .loading-bar.animate {
+                animation: loadData 0.4s ease-in-out;
+            }
+            
+            @keyframes loadData {
+                0% { width: 0%; left: 0; }
+                50% { width: 100%; }
+                100% { width: 0%; left: 100%; } /* Efeito de passagem rápida */
+            }
                 </div>
             </div>
         </section>
@@ -351,18 +360,23 @@
 
     <script>
         function openV(evt, vName) {
-            const panels = document.querySelectorAll(".content-panel");
-            panels.forEach(p => {
-                p.classList.remove("active");
-                p.style.display = "none";
-            });
-            const buttons = document.querySelectorAll(".v-btn");
-            buttons.forEach(b => b.classList.remove("active"));
-            const targetPanel = document.getElementById(vName);
-            targetPanel.classList.add("active");
-            targetPanel.style.display = "block";
-            evt.currentTarget.classList.add("active");
-        }
+            function openV(evt, cityName) {
+    // ... (seu código anterior de remover classes active) ...
+
+    // DISPARAR A BARRA DE CARREGAMENTO
+    const loader = document.getElementById("data-loader");
+    
+    // Remove a classe (caso já exista de um clique anterior)
+    loader.classList.remove("animate");
+    
+    // Truque para "resetar" o elemento no DOM e permitir que a animação rode de novo
+    void loader.offsetWidth; 
+    
+    // Adiciona a classe para iniciar a animação
+    loader.classList.add("animate");
+
+    // ... (seu código de ativar painel e scrambleText) ...
+}
 
         setInterval(() => {
             document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('pt-BR');
