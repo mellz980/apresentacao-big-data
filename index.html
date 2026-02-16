@@ -8,14 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* ========================================
-        1. VARIÁVEIS & RESET
-        ========================================
-        */
+        VARIÁVEIS & RESET
+        ======================================== */
         :root {
             --neon-pink: #ff008c;
             --neon-magenta: #d300c5;
@@ -33,57 +31,30 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
 
         body {
             background-color: var(--deep-space);
             color: var(--text-main);
             font-family: var(--font-body);
-            overflow-x: hidden; /* Previne scroll horizontal indesejado */
+            overflow-x: hidden;
             line-height: 1.6;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* ========================================
-        2. UI ELEMENTS
-        ========================================
-        */
-        #cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--neon-pink);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            mix-blend-mode: difference;
-        }
-
-        #cursor.hovered {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 0, 140, 0.2);
-            border-color: var(--neon-blue);
-        }
-
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--void-black); }
         ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 4px; }
 
-        #bg-canvas {
+        /* Canvas Matrix Rain */
+        #dataCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.6;
+            z-index: -1; /* Fica atrás de tudo */
+            opacity: 0.3;
         }
 
         /* Loader */
@@ -94,12 +65,12 @@
             width: 100%;
             height: 100%;
             background: var(--void-black);
-            z-index: 10000;
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: opacity 0.8s ease-out;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
         }
         
         .loader-text {
@@ -127,26 +98,10 @@
             animation: loadProgress 2s ease-in-out forwards;
         }
 
-        /* ========================================
-        3. TYPOGRAPHY & LAYOUT (CORRIGIDO)
-        ========================================
-        */
+        /* Typography */
         h1, h2, h3 {
             font-family: var(--font-display);
             text-transform: uppercase;
-        }
-
-        /* CORREÇÃO DO TÍTULO: Centralização robusta */
-        .section-title {
-            font-size: 3rem;
-            text-align: center;
-            margin: 0 auto 4rem auto; /* Centraliza o bloco */
-            display: block; /* Ocupa a largura total para permitir text-align center */
-            width: 100%;
-            background: linear-gradient(90deg, #fff, var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            /* Removido position absolute/transform que causava o erro */
         }
 
         .container {
@@ -154,18 +109,16 @@
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
+            position: relative;
+            z-index: 2;
         }
 
         section {
-            padding: 120px 0; /* Aumentado padding para evitar sobreposição */
+            padding: 80px 0;
             position: relative;
-            width: 100%;
         }
 
-        /* ========================================
-        4. COMPONENTS
-        ========================================
-        */
+        /* Components */
         .glass-card {
             background: var(--holo-glass);
             backdrop-filter: blur(12px);
@@ -173,233 +126,137 @@
             padding: 2rem;
             border-radius: 10px;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 40px;
         }
 
         .glass-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(255, 0, 140, 0.2);
             border-color: var(--neon-pink);
         }
 
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .glass-card:hover::before { left: 100%; }
-
-        .btn-neon {
-            position: relative;
-            display: inline-block;
-            padding: 15px 30px;
-            color: var(--neon-pink);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            overflow: hidden;
-            transition: 0.2s;
-            background: transparent;
-            border: 1px solid var(--neon-pink);
-            margin-top: 20px;
-        }
-
-        .btn-neon:hover {
-            background: var(--neon-pink);
-            color: #fff;
-            box-shadow: 0 0 10px var(--neon-pink), 0 0 40px var(--neon-pink);
-        }
-
-        /* ========================================
-        5. SECTIONS
-        ========================================
-        */
+        /* Header */
         header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 20px 0;
-            transition: 0.4s;
-            backdrop-filter: blur(5px);
-        }
-
-        header.scrolled {
-            background: rgba(10, 10, 18, 0.9);
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 0, 140, 0.2);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #fff;
-        }
-        .logo span { color: var(--neon-pink); }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            width: 0;
-            height: 2px;
-            background: var(--neon-pink);
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover::after { width: 100%; }
-
-        #hero {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             flex-direction: column;
-            padding-top: 80px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
         }
 
-        .hero-glitch {
+        .hud-element {
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            padding: 20px;
+        }
+        .top-left { top: 0; left: 0; text-align: left; }
+        .top-right { top: 0; right: 0; text-align: right; }
+
+        .hero-title {
             font-size: 5rem;
             font-weight: 900;
-            position: relative;
             color: #fff;
             text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue);
             animation: glitch-skew 3s infinite linear alternate-reverse;
             line-height: 1.1;
+            margin-bottom: 20px;
         }
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--neon-blue);
-            margin-bottom: 2rem;
-            letter-spacing: 3px;
-        }
-
-        #five-vs .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .v-card i {
-            font-size: 2.5rem;
-            color: var(--neon-pink);
-            margin-bottom: 15px;
-        }
-        .v-card h3 { margin-bottom: 10px; color: #fff; }
-
-        /* Architecture Pipeline Correction */
-        .pipeline {
+        .hero-stats {
             display: flex;
-            justify-content: center; /* Garante centralização */
-            align-items: flex-start;
+            gap: 40px;
+            margin-top: 40px;
             flex-wrap: wrap;
-            position: relative;
-            gap: 20px;
+            justify-content: center;
+        }
+
+        .stat-box {
             text-align: center;
+            font-family: var(--font-display);
         }
+        .stat-box i { font-size: 2rem; color: var(--neon-blue); margin-bottom: 10px; display: block;}
+        .stat-box span { font-size: 1.5rem; font-weight: bold; color: #fff; display: block;}
+        .stat-box small { color: var(--neon-pink); font-size: 0.8rem; letter-spacing: 2px; }
 
-        .pipeline-step {
-            flex: 1;
-            min-width: 150px;
-            position: relative;
-            z-index: 2; /* Garante que fique acima das linhas */
-        }
-
-        .pipeline-node {
-            width: 80px;
-            height: 80px;
-            background: var(--deep-space);
-            border: 2px solid var(--neon-blue);
-            border-radius: 50%;
+        /* Terminal Section */
+        .terminal-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-            transition: 0.3s;
-        }
-        
-        .pipeline-step:hover .pipeline-node {
-            background: var(--neon-blue);
-            color: #000;
-            transform: scale(1.1);
+            background: rgba(10, 0, 10, 0.95);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            border-radius: 4px;
+            min-height: 400px;
+            overflow: hidden;
+            margin-top: 30px;
         }
 
-        /* Linhas conectoras */
-        .connector-line {
-            position: absolute;
-            top: 40px; /* Meio do círculo */
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #333;
-            z-index: 1;
-        }
-
-        /* Dashboard */
-        .chart-container {
+        .terminal-sidebar {
+            width: 250px;
+            background: rgba(20, 0, 20, 1);
+            border-right: 1px solid rgba(255,255,255,0.1);
             display: flex;
-            gap: 20px;
-            height: 300px;
-            align-items: flex-end;
-            justify-content: center;
+            flex-direction: column;
+        }
+
+        .v-btn {
+            background: transparent;
+            border: none;
+            color: #666;
             padding: 20px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #333;
-            border-radius: 8px;
-        }
-
-        .bar {
-            width: 50px;
-            background: linear-gradient(to top, var(--neon-magenta), var(--neon-pink));
-            transition: height 1s ease;
+            text-align: left;
+            font-family: var(--font-display);
+            cursor: pointer;
+            transition: 0.3s;
             position: relative;
-            opacity: 0.8;
-            border-radius: 4px 4px 0 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .bar:hover { opacity: 1; box-shadow: 0 0 15px var(--neon-pink); }
-        
-        .bar span {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: #aaa;
+        .v-btn:hover {
+            color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .v-btn.active {
+            color: #fff;
+            background: rgba(255, 0, 127, 0.15);
+            border-left: 4px solid var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .terminal-content {
+            flex: 1;
+            padding: 40px;
+            background: radial-gradient(circle at center, rgba(30,0,30,1) 0%, rgba(0,0,0,1) 100%);
+        }
+
+        .content-panel {
+            display: none;
+            animation: panelIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+        }
+        .content-panel.active { display: block; }
+        .data-item { font-size: 1.2rem; color: #ddd; margin-top: 15px; border-left: 3px solid var(--neon-blue); padding-left: 15px; }
+
+        .btn-terminal {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: var(--font-display);
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .btn-terminal:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
         }
 
         footer {
@@ -407,14 +264,14 @@
             padding: 50px 0;
             border-top: 1px solid #222;
             text-align: center;
+            margin-top: 50px;
+            color: var(--neon-pink);
+            font-family: var(--font-display);
+            letter-spacing: 2px;
         }
 
-        /* Animations */
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
+        /* Keyframes */
+        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
         @keyframes textGlitch {
             0% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
@@ -423,7 +280,6 @@
             80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
         }
-
         @keyframes glitch-skew {
             0% { transform: skew(0deg); }
             20% { transform: skew(-2deg); }
@@ -432,31 +288,24 @@
             80% { transform: skew(1deg); }
             100% { transform: skew(0deg); }
         }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+        @keyframes panelIn {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* Mobile */
         @media (max-width: 768px) {
-            .hero-glitch { font-size: 3rem; }
-            .pipeline { flex-direction: column; }
-            .connector-line { display: none; }
-            .nav-links { display: none; }
-            .section-title { font-size: 2rem; }
+            .hero-title { font-size: 3rem; }
+            .terminal-container { flex-direction: column; }
+            .terminal-sidebar { width: 100%; display: flex; flex-direction: row; overflow-x: auto; }
+            .v-btn { flex: 1; min-width: 120px; font-size: 0.8rem; }
+            .hud-element { display: none; }
         }
-
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
+    <canvas id="dataCanvas"></canvas>
 
     <div id="loader">
         <div class="loader-text">INICIALIZANDO...</div>
@@ -465,14 +314,7 @@
         </div>
     </div>
 
-
-    <div class="scanline"></div>
-
     <header>
-        <canvas id="dataCanvas"></canvas>
-        <div class="tech-grid-3d"></div>
-
-
         <div class="hud-element top-left">
             > MELISSA NUNES DE OLIVEIRA<br>
             > DAVI LIN BRAGA<br>
@@ -512,19 +354,20 @@
                 </div>
             </div>
 
-            <p style="font-family: var(--font-tech); color: var(--neon-purple); margin-top: 45px; letter-spacing: 3px; opacity: 0.9; text-shadow: 0 0 5px var(--neon-purple);">
+            <p style="font-family: var(--font-display); color: var(--neon-magenta); margin-top: 45px; letter-spacing: 3px; opacity: 0.9; text-shadow: 0 0 5px var(--neon-magenta);">
                 INTERFACE DE INTELIGÊNCIA PREDITIVA v4.0
             </p>
         </div>
 
-        <div style="position: absolute; bottom: 30px; color: var(--neon-pink); font-size: 2rem; animation: bounce 2s infinite;">
+        <div style="position: absolute; bottom: 30px; color: var(--neon-pink); font-size: 2rem; animation: textGlitch 2s infinite;">
             <i class="fas fa-angle-double-down"></i>
         </div>
     </header>
 
     <div class="container">
-        <section style="margin-bottom: 120px;">
-            <div style="font-family: var(--font-tech); color: var(--neon-purple); margin-bottom: 25px;">
+        
+        <section>
+            <div style="font-family: var(--font-display); color: var(--neon-magenta); margin-bottom: 25px;">
                 <h2>// ANÁLISE ESTRATÉGICA</h2>
             </div>
             <div class="glass-card">
@@ -535,7 +378,7 @@
         </section>
 
         <section id="v5-terminal">
-            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-pink);">
+            <h2 style="font-family: var(--font-display); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-pink);">
                 TERMINAL_DE_DADOS: OS 5 Vs
             </h2>
 
@@ -560,33 +403,33 @@
 
                 <div class="terminal-content">
                     <div id="volume" class="content-panel active">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUANTIDADE BRUTA ]</h2>
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-display);">[ QUANTIDADE BRUTA ]</h2>
                         <div class="data-item">O processamento de trilhões de gigabytes exige infraestrutura distribuída (Cloud & Edge Computing). O volume transforma o "armazenamento" em "estratégia".</div>
                     </div>
 
                     <div id="velocidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FLUXO EM TEMPO REAL ]</h2>
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-display);">[ FLUXO EM TEMPO REAL ]</h2>
                         <div class="data-item">Dados que expiram rápido. A análise precisa ocorrer no fluxo (Streaming) para gerar respostas imediatas antes que a oportunidade desapareça.</div>
                     </div>
 
                     <div id="variedade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ CAOS ESTRUTURADO ]</h2>
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-display);">[ CAOS ESTRUTURADO ]</h2>
                         <div class="data-item">Vídeos, áudios, textos e sensores IoT. O Big Data integra o mundo estruturado e o caos não-estruturado em uma única visão.</div>
                     </div>
 
                     <div id="veracidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FILTRAGEM DE RUÍDO ]</h2>
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-display);">[ FILTRAGEM DE RUÍDO ]</h2>
                         <div class="data-item">Qualidade acima de tudo. Sem veracidade, algoritmos tornam-se armas de desinformação. O dado precisa ser limpo e confiável.</div>
                     </div>
 
                     <div id="valor" class="content-panel">
-                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ O PROPÓSITO FINAL ]</h2>
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-display);">[ O PROPÓSITO FINAL ]</h2>
                         <div class="data-item">Transformar bits em lucro ou impacto social. Dados sem valor são apenas custo; com valor, tornam-se o novo petróleo.</div>
                     </div>
                 </div>
             </div>
 
-            <div id="botao-link-container" style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
+            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: right;">
                 <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
                     <i class="fas fa-external-link-alt"></i> DEMONSTRAÇÃO NASA EYES
                 </a>
@@ -595,151 +438,77 @@
     </div>
 
     <footer>
-        <p style="color: var(--neon-pink); font-family: var(--font-tech);">INTERFACE | BY MELISSA | 2026</p>
+        <p>INTERFACE | BY MELISSA | 2026</p>
     </footer>
 
-    <style>
-        /* CSS REFINADO PARA O TERMINAL */
-        .terminal-container {
-            display: flex;
-            background: rgba(10, 0, 10, 0.95);
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-            border-radius: 4px;
-            min-height: 400px;
-            overflow: hidden;
-        }
-
-        .terminal-sidebar {
-            width: 250px;
-            background: rgba(20, 0, 20, 1);
-            border-right: 1px solid var(--border-glass);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .v-btn {
-            background: transparent;
-            border: none;
-            color: #666;
-            padding: 20px;
-            text-align: left;
-            font-family: var(--font-tech);
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .v-btn i { margin-right: 10px; width: 20px; }
-
-        .v-btn:hover {
-            color: var(--neon-blue);
-            background: rgba(0, 242, 255, 0.05);
-        }
-
-        .v-btn.active {
-            color: #fff;
-            background: rgba(255, 0, 127, 0.15);
-            border-left: 4px solid var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        /* Efeito de carregamento no botão ativo */
-        .v-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            height: 2px; width: 100%;
-            background: var(--neon-pink);
-            animation: btnLoad 2s infinite linear;
-        }
-        @keyframes btnLoad { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-        .terminal-content {
-            flex: 1;
-            padding: 40px;
-            background: radial-gradient(circle at center, rgba(30,0,30,1) 0%, rgba(0,0,0,1) 100%);
-        }
-
-        .content-panel {
-            display: none;
-            animation: panelIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-        }
-
-        .content-panel.active { display: block; }
-
-        @keyframes panelIn {
-            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
-            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        .btn-terminal {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 25px;
-            border: 1px solid var(--neon-pink);
-            color: var(--neon-pink);
-            font-family: var(--font-tech);
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .btn-terminal:hover {
-            background: var(--neon-pink);
-            color: #000;
-            box-shadow: 0 0 20px var(--neon-pink);
-        }
-    </style>
-
     <script>
-        // Função de troca de abas corrigida
-        function openV(evt, vName) {
-            const panels = document.querySelectorAll(".content-panel");
-            const buttons = document.querySelectorAll(".v-btn");
+        // 1. Remover Loader quando carregar
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 2000); // Espera 2 segundos para dar efeito
+        });
 
+        // 2. Sistema de Abas (5 Vs)
+        function openV(evt, vName) {
+            // Esconde todos os painéis
+            const panels = document.querySelectorAll(".content-panel");
             panels.forEach(p => p.classList.remove("active"));
+            
+            // Remove classe active dos botões
+            const buttons = document.querySelectorAll(".v-btn");
             buttons.forEach(b => b.classList.remove("active"));
 
-            document.getElementById(vName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+            // Mostra o atual
+            const target = document.getElementById(vName);
+            if(target) {
+                target.classList.add("active");
+                evt.currentTarget.classList.add("active");
+            }
         }
 
-        // Relógio
+        // 3. Relógio em Tempo Real
         setInterval(() => {
             const clock = document.getElementById('live-clock');
             if(clock) clock.innerText = new Date().toLocaleTimeString('pt-BR');
         }, 1000);
 
-        // Matrix Rain
+        // 4. Matrix Rain (Fundo)
         const canvas = document.getElementById('dataCanvas');
         const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
 
-        const columns = Math.floor(width / 15);
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const columns = Math.floor(canvas.width / 20);
         const drops = new Array(columns).fill(1);
 
         function drawMatrix() {
-            ctx.fillStyle = "rgba(5, 0, 5, 0.1)";
-            ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = "#ff00ff";
-            ctx.font = "15px monospace";
+            ctx.fillStyle = "rgba(10, 10, 18, 0.1)"; // Rastro suave
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#ff008c"; // Cor rosa neon
+            ctx.font = "14px monospace";
 
             for (let i = 0; i < drops.length; i++) {
-                const text = Math.floor(Math.random() * 2);
-                ctx.fillText(text, i * 15, drops[i] * 15);
-                if (drops[i] * 15 > height && Math.random() > 0.975) drops[i] = 0;
+                // Caractere aleatório (binário ou letras Matrix)
+                const text = Math.random() > 0.5 ? "1" : "0";
+                
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
                 drops[i]++;
             }
         }
         setInterval(drawMatrix, 50);
-
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
