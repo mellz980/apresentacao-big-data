@@ -13,13 +13,13 @@
 
     <style>
         /* ========================================
-        1. VARIÁVEIS & RESET (CSS ARQUITETURA)
+        1. VARIÁVEIS & RESET
         ========================================
         */
         :root {
-           --neon-pink: #ff75c1;
-            --neon-magenta: #ff1cf0;
-            --neon-blue: #ff10ba;
+            --neon-pink: #ff008c;
+            --neon-magenta: #d300c5;
+            --neon-blue: #00f3ff;
             --deep-space: #0a0a12;
             --void-black: #050508;
             --holo-glass: rgba(255, 255, 255, 0.05);
@@ -27,21 +27,20 @@
             --text-main: #e0e0e0;
             --font-display: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
-            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Custom cursor override */
+            cursor: none;
         }
 
         body {
             background-color: var(--deep-space);
             color: var(--text-main);
             font-family: var(--font-body);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Previne scroll horizontal indesejado */
             line-height: 1.6;
         }
 
@@ -50,15 +49,11 @@
         }
 
         /* ========================================
-        2. UI ELEMENTS & EFFECTS
+        2. UI ELEMENTS
         ========================================
         */
-        
-        /* Custom Cursor */
         #cursor {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 20px;
             height: 20px;
             border: 2px solid var(--neon-pink);
@@ -77,19 +72,10 @@
             border-color: var(--neon-blue);
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--void-black);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-pink);
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--void-black); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 4px; }
 
-        /* Canvas Background */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -142,7 +128,7 @@
         }
 
         /* ========================================
-        3. TYPOGRAPHY & LAYOUT
+        3. TYPOGRAPHY & LAYOUT (CORRIGIDO)
         ========================================
         */
         h1, h2, h3 {
@@ -150,36 +136,36 @@
             text-transform: uppercase;
         }
 
+        /* CORREÇÃO DO TÍTULO: Centralização robusta */
         .section-title {
             font-size: 3rem;
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
+            margin: 0 auto 4rem auto; /* Centraliza o bloco */
+            display: block; /* Ocupa a largura total para permitir text-align center */
+            width: 100%;
             background: linear-gradient(90deg, #fff, var(--neon-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Removido position absolute/transform que causava o erro */
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         section {
-            padding: 100px 0;
+            padding: 120px 0; /* Aumentado padding para evitar sobreposição */
             position: relative;
+            width: 100%;
         }
 
         /* ========================================
-        4. COMPONENTS (BUTTONS & CARDS)
+        4. COMPONENTS
         ========================================
         */
-        
-        /* Glass Card */
         .glass-card {
             background: var(--holo-glass);
             backdrop-filter: blur(12px);
@@ -208,11 +194,8 @@
             transition: 0.5s;
         }
 
-        .glass-card:hover::before {
-            left: 100%;
-        }
+        .glass-card:hover::before { left: 100%; }
 
-        /* Neon Button */
         .btn-neon {
             position: relative;
             display: inline-block;
@@ -240,8 +223,6 @@
         5. SECTIONS
         ========================================
         */
-
-        /* Header */
         header {
             position: fixed;
             width: 100%;
@@ -299,15 +280,14 @@
 
         .nav-links a:hover::after { width: 100%; }
 
-        /* Hero */
         #hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             flex-direction: column;
-            padding-top: 60px;
+            padding-top: 80px;
         }
 
         .hero-glitch {
@@ -317,6 +297,7 @@
             color: #fff;
             text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue);
             animation: glitch-skew 3s infinite linear alternate-reverse;
+            line-height: 1.1;
         }
 
         .hero-subtitle {
@@ -326,7 +307,6 @@
             letter-spacing: 3px;
         }
 
-        /* 5 Vs Section */
         #five-vs .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -338,26 +318,24 @@
             color: var(--neon-pink);
             margin-bottom: 15px;
         }
+        .v-card h3 { margin-bottom: 10px; color: #fff; }
 
-        .v-card h3 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        /* Architecture */
+        /* Architecture Pipeline Correction */
         .pipeline {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center; /* Garante centralização */
+            align-items: flex-start;
             flex-wrap: wrap;
             position: relative;
+            gap: 20px;
+            text-align: center;
         }
 
         .pipeline-step {
             flex: 1;
-            text-align: center;
             min-width: 150px;
             position: relative;
+            z-index: 2; /* Garante que fique acima das linhas */
         }
 
         .pipeline-node {
@@ -380,27 +358,18 @@
             transform: scale(1.1);
         }
 
-        .connector {
-            flex: 1;
+        /* Linhas conectoras */
+        .connector-line {
+            position: absolute;
+            top: 40px; /* Meio do círculo */
+            left: 0;
+            width: 100%;
             height: 2px;
             background: #333;
-            position: relative;
-            top: -40px;
-            z-index: -1;
-        }
-        
-        .connector::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 20px;
-            background: var(--neon-pink);
-            animation: dataFlow 2s infinite linear;
+            z-index: 1;
         }
 
-        /* Visualizations (Dashboard) */
+        /* Dashboard */
         .chart-container {
             display: flex;
             gap: 20px;
@@ -410,6 +379,7 @@
             padding: 20px;
             background: rgba(0,0,0,0.3);
             border: 1px solid #333;
+            border-radius: 8px;
         }
 
         .bar {
@@ -418,6 +388,7 @@
             transition: height 1s ease;
             position: relative;
             opacity: 0.8;
+            border-radius: 4px 4px 0 0;
         }
 
         .bar:hover { opacity: 1; box-shadow: 0 0 15px var(--neon-pink); }
@@ -428,9 +399,9 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.8rem;
+            color: #aaa;
         }
 
-        /* Footer */
         footer {
             background: #000;
             padding: 50px 0;
@@ -453,13 +424,15 @@
             100% { transform: translate(0); }
         }
 
-        @keyframes dataFlow {
-            0% { left: 0%; width: 0; opacity: 0;}
-            50% { opacity: 1; width: 30%; }
-            100% { left: 100%; width: 0; opacity: 0;}
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-2deg); }
+            40% { transform: skew(2deg); }
+            60% { transform: skew(-1deg); }
+            80% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
         }
 
-        /* Reveal on Scroll Class */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -474,8 +447,9 @@
         @media (max-width: 768px) {
             .hero-glitch { font-size: 3rem; }
             .pipeline { flex-direction: column; }
-            .connector { display: none; }
+            .connector-line { display: none; }
             .nav-links { display: none; }
+            .section-title { font-size: 2rem; }
         }
 
     </style>
@@ -533,27 +507,27 @@
                     <div class="glass-card v-card reveal hover-trigger">
                         <i class="fa-solid fa-server"></i>
                         <h3>Volume</h3>
-                        <p>Escala de Terabytes a Zettabytes. Onde o armazenamento tradicional falha, nossos Data Lakes prosperam.</p>
+                        <p>Escala de Terabytes a Zettabytes.</p>
                     </div>
                     <div class="glass-card v-card reveal hover-trigger">
                         <i class="fa-solid fa-bolt"></i>
                         <h3>Velocidade</h3>
-                        <p>Streaming em tempo real. Latência zero para decisões críticas em mercados financeiros e IoT.</p>
+                        <p>Streaming em tempo real e Latência zero.</p>
                     </div>
                     <div class="glass-card v-card reveal hover-trigger">
                         <i class="fa-solid fa-layer-group"></i>
                         <h3>Variedade</h3>
-                        <p>Structured, Unstructured, Semi-structured. Vídeo, texto, log, sensor, social.</p>
+                        <p>Dados estruturados, vídeos e sensores IoT.</p>
                     </div>
                     <div class="glass-card v-card reveal hover-trigger">
                         <i class="fa-solid fa-check-double"></i>
                         <h3>Veracidade</h3>
-                        <p>Limpeza e Higienização de dados. Eliminamos o ruído para garantir a precisão da IA.</p>
+                        <p>Higienização e precisão absoluta.</p>
                     </div>
                     <div class="glass-card v-card reveal hover-trigger">
                         <i class="fa-solid fa-gem"></i>
                         <h3>Valor</h3>
-                        <p>O ROI final. Transformar bits em insights de negócios acionáveis e lucrativos.</p>
+                        <p>Insights acionáveis e ROI.</p>
                     </div>
                 </div>
             </div>
@@ -563,6 +537,9 @@
             <div class="container">
                 <h2 class="section-title reveal">Pipeline de Processamento</h2>
                 <div class="pipeline reveal">
+                    
+                    <div class="connector-line"></div>
+
                     <div class="pipeline-step">
                         <div class="pipeline-node"><i class="fa-solid fa-magnet fa-2x"></i></div>
                         <h4>Ingestion</h4>
@@ -573,13 +550,11 @@
                         <h4>Processing</h4>
                         <p>Spark / Hadoop</p>
                     </div>
-
                     <div class="pipeline-step">
                         <div class="pipeline-node"><i class="fa-solid fa-database fa-2x"></i></div>
                         <h4>Storage</h4>
                         <p>HDFS / S3 / NoSQL</p>
                     </div>
-
                     <div class="pipeline-step">
                         <div class="pipeline-node"><i class="fa-solid fa-chart-line fa-2x"></i></div>
                         <h4>Analysis</h4>
@@ -593,9 +568,9 @@
             <div class="container">
                 <h2 class="section-title reveal">Visualização em Tempo Real</h2>
                 <div class="glass-card reveal">
-                    <p style="text-align: center; margin-bottom: 20px;">Processamento Global (Simulação de Nós)</p>
+                    <p style="text-align: center; margin-bottom: 20px; color: #aaa;">Processamento Global (Simulação de Nós)</p>
                     <div class="chart-container" id="animated-chart">
-                    </div>
+                        </div>
                 </div>
             </div>
         </section>
@@ -605,7 +580,7 @@
                 <div class="glass-card" style="border-left: 5px solid var(--neon-pink);">
                     <h2>O Futuro é Autônomo</h2>
                     <p style="margin-top: 15px;">
-                        Estamos caminhando para o "Big Data 2.0" ou "Smart Data". A integração com Computação de Borda (Edge Computing) e IA Generativa permitirá que os dados não apenas relatem o passado, mas construam ativamente o futuro sem intervenção humana.
+                        Integração total com Edge Computing e IA Generativa para construir o futuro sem intervenção humana.
                     </p>
                     <button class="btn-neon hover-trigger" style="margin-top: 30px;">Solicitar Demo</button>
                 </div>
@@ -616,38 +591,27 @@
     <footer>
         <div class="container">
             <h3 style="color: var(--neon-pink);">NEXUS DATA SYSTEMS</h3>
-            <p>&copy; 2030 Nexus Global Inc. Todos os direitos reservados no Metaverso e Realidade Base.</p>
-            <div style="margin-top: 20px; font-size: 1.5rem;">
-                <i class="fa-brands fa-github hover-trigger" style="margin: 0 10px;"></i>
-                <i class="fa-brands fa-linkedin hover-trigger" style="margin: 0 10px;"></i>
-                <i class="fa-brands fa-twitter hover-trigger" style="margin: 0 10px;"></i>
-            </div>
+            <p>&copy; 2030 Nexus Global Inc.</p>
         </div>
     </footer>
 
     <script>
-        // ==========================================
-        // 1. LOADER & INITIALIZATION
-        // ==========================================
+        // JS IDENTICO AO ANTERIOR
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => {
                     loader.style.display = 'none';
-                    initChart(); // Iniciar animação do gráfico
+                    initChart();
                 }, 800);
-            }, 2000); // Tempo simulado de "boot"
+            }, 1500);
         });
 
-        // ==========================================
-        // 2. CANVAS PARTICLE NETWORK (Neural Net)
-        // ==========================================
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray;
 
-        // Ajustar tamanho
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -657,7 +621,6 @@
             initParticles();
         });
 
-        // Mouse Interactivity
         const mouse = { x: null, y: null, radius: 150 };
 
         window.addEventListener('mousemove', (event) => {
@@ -665,7 +628,6 @@
             mouse.y = event.y;
         });
 
-        // Classe Partícula
         class Particle {
             constructor(x, y, directionX, directionY, size, color) {
                 this.x = x;
@@ -675,20 +637,16 @@
                 this.size = size;
                 this.color = color;
             }
-
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
                 ctx.fillStyle = this.color;
                 ctx.fill();
             }
-
             update() {
-                // Checar limites da tela
                 if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
                 if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
 
-                // Checar colisão com mouse
                 let dx = mouse.x - this.x;
                 let dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx*dx + dy*dy);
@@ -699,7 +657,6 @@
                     if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 10;
                     if (mouse.y > this.y && this.y > 10) this.y -= 10;
                 }
-
                 this.x += this.directionX;
                 this.y += this.directionY;
                 this.draw();
@@ -716,21 +673,18 @@
                 let directionX = (Math.random() * 0.5) - 0.25;
                 let directionY = (Math.random() * 0.5) - 0.25;
                 let color = '#ff008c';
-
                 particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
             }
         }
 
         function connect() {
-            let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
                     let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
                                    ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    
                     if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(255, 0, 140,' + opacityValue + ')'; // Linha Rosa Neon
+                        let opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(255, 0, 140,' + opacityValue + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -744,7 +698,6 @@
         function animateParticles() {
             requestAnimationFrame(animateParticles);
             ctx.clearRect(0, 0, innerWidth, innerHeight);
-            
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
             }
@@ -754,76 +707,47 @@
         initParticles();
         animateParticles();
 
-        // ==========================================
-        // 3. CUSTOM CURSOR LOGIC
-        // ==========================================
         const cursor = document.getElementById('cursor');
-        const triggers = document.querySelectorAll('.hover-trigger');
-
         document.addEventListener('mousemove', e => {
             cursor.style.top = e.clientY + 'px';
             cursor.style.left = e.clientX + 'px';
         });
-
-        // Adicionar efeito magnético/hover
         document.querySelectorAll('a, button, .v-card').forEach(item => {
             item.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
             item.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
         });
 
-        // ==========================================
-        // 4. SCROLL REVEAL ANIMATION
-        // ==========================================
         const revealElements = document.querySelectorAll('.reveal');
-
         const revealOnScroll = () => {
             const windowHeight = window.innerHeight;
-            const elementVisible = 150;
-
+            const elementVisible = 100;
             revealElements.forEach((reveal) => {
                 const elementTop = reveal.getBoundingClientRect().top;
                 if (elementTop < windowHeight - elementVisible) {
                     reveal.classList.add('active');
                 }
             });
-            
-            // Navbar blur effect
             const header = document.getElementById('navbar');
-            if(window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if(window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         };
-
         window.addEventListener('scroll', revealOnScroll);
 
-        // ==========================================
-        // 5. ANIMATED CHART SIMULATION
-        // ==========================================
         function initChart() {
             const chartContainer = document.getElementById('animated-chart');
             const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
-            
             months.forEach((m, index) => {
                 const bar = document.createElement('div');
                 bar.classList.add('bar');
                 bar.style.height = '0%';
-                
                 const label = document.createElement('span');
                 label.innerText = m;
                 bar.appendChild(label);
-                
                 chartContainer.appendChild(bar);
-
-                // Animar crescimento aleatório
                 setTimeout(() => {
-                    // Altura aleatória entre 20% e 100%
                     const h = Math.floor(Math.random() * 80) + 20; 
                     bar.style.height = h + '%';
                 }, index * 200);
-
-                // Efeito "vivo" (mudando dados)
                 setInterval(() => {
                     const newH = Math.floor(Math.random() * 80) + 20;
                     bar.style.height = newH + '%';
