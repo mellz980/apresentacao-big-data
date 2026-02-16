@@ -222,3 +222,157 @@
         .data-item {
             background: rgba(0, 243, 255, 0.05); padding: 20px; border: 1px solid rgba(0, 243, 255, 0.1);
             margin-top: 15px; border-left: 5px solid var(--neon-pink);
+        }
+
+        footer { text-align: center; padding: 80px; border-top: 1px solid var(--border-glass); font-family: var(--font-tech); }
+
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+
+    <header id="hero">
+        <div class="hud-element top-left glitch-text">
+            SISTEMA: ATIVO<br>
+            LOCAL: NODE_SAO_PAULO<br>
+            LATÊNCIA: 12ms
+        </div>
+
+        <div class="hud-element top-right">
+            DATABASE_UPLOAD: [|||||||||| 92%]<br>
+            ENCRIPTAÇÃO: AES-256<br>
+            <span id="live-clock">00:00:00</span>
+        </div>
+
+        <div class="hud-element bottom-left">
+            > INGESTÃO_GLOBAL: 2.5 PB/s<br>
+            > ALERTAS: 0 FALHAS
+        </div>
+
+        <div class="tech-grid-3d"></div>
+
+        <div class="header-content">
+            <p style="color: var(--neon-purple); letter-spacing: 10px; font-weight: bold;">[ BEM-VINDO À ERA DO DADO ]</p>
+            <h1 class="hero-title">BIG DATA</h1>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <span>2.5 QUINTILHÕES</span>
+                    <small>BYTES GERADOS/DIA</small>
+                </div>
+                <div class="stat-box">
+                    <span>90%</span>
+                    <small>DADOS CRIADOS NOS ÚLTIMOS 2 ANOS</small>
+                </div>
+                <div class="stat-box">
+                    <span>∞</span>
+                    <small>OPORTUNIDADES DE INSIGHT</small>
+                </div>
+            </div>
+
+            <p style="font-family: var(--font-tech); color: var(--neon-blue); margin-top: 40px; letter-spacing: 3px;">
+                INTERFACE DE INTELIGÊNCIA PREDITIVA v4.0
+            </p>
+        </div>
+
+        <div class="scroll-indicator" onclick="document.getElementById('content').scrollIntoView()">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <div class="container" id="content">
+        
+        <section style="margin-bottom: 100px;">
+            <div style="margin-bottom: 30px; font-family: var(--font-tech); color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green);">
+                <h2>// MISSÃO DO SISTEMA</h2>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 1.3rem; line-height: 2;">
+                    Como comunicadora estratégica, Lívia, você entende que o <strong>Big Data</strong> é a ferramenta definitiva para decifrar a realidade. Ele transforma o ruído de bilhões de dispositivos em narrativas precisas. <span style="color: var(--neon-pink);">Não analisamos apenas o passado, programamos o futuro.</span>
+                </p>
+            </div>
+        </section>
+
+        <section id="v5-system">
+            <h2 style="font-family: var(--font-tech); color: var(--neon-blue); margin-bottom: 40px;">OS 5 PILARES (Vs)</h2>
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')">01. VOLUME</button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')">02. VELOCIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')">03. VARIEDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')">04. VERACIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'valor')">05. VALOR</button>
+                </div>
+
+                <div class="terminal-content">
+                    <div id="volume" class="content-panel active">
+                        <h2 style="color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue);">QUANTIDADE MASSIVA</h2>
+                        <p style="margin-top: 20px;">Processamento de dados em escala planetária.</p>
+                        <div class="data-item">Sistemas distribuídos permitem que trilhões de registros sejam consultados em milissegundos.</div>
+                    </div>
+
+                    <div id="velocidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue);">FLUXO CONSTANTE</h2>
+                        <p style="margin-top: 20px;">A análise acontece no momento em que o dado é criado.</p>
+                        <div class="data-item">Essencial para detecção de fraudes financeiras e algoritmos de recomendação.</div>
+                    </div>
+                    
+                    <div id="variedade" class="content-panel">
+                        <h2 style="color: var(--neon-blue);">MULTIFORMATO</h2>
+                        <p style="margin-top: 20px;">Lidando com a complexidade do mundo real.</p>
+                        <div class="data-item">Integração de áudio, vídeo, GPS e texto não estruturado em uma única visão.</div>
+                    </div>
+
+                    <div id="veracidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue);">CONFIANÇA E PURIFICAÇÃO</h2>
+                        <p style="margin-top: 20px;">Garantindo a precisão da inteligência extraída.</p>
+                        <div class="data-item">Algoritmos avançados de limpeza para remover fake news e inconsistências.</div>
+                    </div>
+
+                    <div id="valor" class="content-panel">
+                        <h2 style="color: var(--neon-blue);">O IMPACTO REAL</h2>
+                        <p style="margin-top: 20px;">A conversão de dados brutos em vantagem competitiva.</p>
+                        <div class="data-item">Onde o jornalismo encontra a ciência de dados para gerar insights profundos.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p style="color: var(--neon-purple); letter-spacing: 5px;">INTERFACE DESENVOLVIDA PARA LÍVIA | 2026</p>
+        <div style="margin-top: 20px; color: var(--neon-blue); font-size: 0.8rem;">
+            PROTOCOL_ID: 8829-X | SECURITY: HIGH
+        </div>
+    </footer>
+
+    <script>
+        // Função para os botões do Terminal
+        function openV(evt, vName) {
+            const panels = document.querySelectorAll(".content-panel");
+            panels.forEach(p => p.classList.remove("active"));
+            p.style.display = "none";
+
+            const buttons = document.querySelectorAll(".v-btn");
+            buttons.forEach(b => b.classList.remove("active"));
+
+            const target = document.getElementById(vName);
+            target.classList.add("active");
+            target.style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Relógio em tempo real no HUD
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString('pt-BR');
+        }, 1000);
+
+        // Inicializar display dos painéis
+        document.querySelectorAll('.content-panel').forEach(p => {
+            if(!p.classList.contains('active')) p.style.display = "none";
+        });
+    </script>
+</body>
+</html>
