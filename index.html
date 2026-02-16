@@ -465,295 +465,281 @@
         </div>
     </div>
 
-    <canvas id="bg-canvas"></canvas>
 
-    <header id="navbar">
-        <div class="container">
-            <nav>
-                <div class="logo">NEXUS<span>.DATA</span></div>
-                <ul class="nav-links">
-                    <li><a href="#hero" class="hover-trigger">Core</a></li>
-                    <li><a href="#intro" class="hover-trigger">Conceito</a></li>
-                    <li><a href="#five-vs" class="hover-trigger">Os 5 Vs</a></li>
-                    <li><a href="#architecture" class="hover-trigger">Arquitetura</a></li>
-                    <li><a href="#dashboard" class="hover-trigger">Analytics</a></li>
-                </ul>
-            </nav>
+    <div class="scanline"></div>
+
+    <header>
+        <canvas id="dataCanvas"></canvas>
+        <div class="tech-grid-3d"></div>
+
+
+        <div class="hud-element top-left">
+            > MELISSA NUNES DE OLIVEIRA<br>
+            > DAVI LIN BRAGA<br>
+            > LUCCA CAPPELLANO<br>
+            > DAVI MAIA CHIEREGATE
+        </div>
+
+        <div class="hud-element top-right">
+            HORA: <span id="live-clock">00:00:00</span><br>
+            A INOVAÇÃO CHEGOU.
+        </div>
+
+        <div class="header-content">
+            <p style="color: var(--neon-blue); letter-spacing: 8px; margin-bottom: 15px; font-weight: bold; text-shadow: 0 0 10px var(--neon-blue);">
+                [ PROCESSANDO DADOS EM TEMPO REAL ]
+            </p>
+           
+            <h1 class="hero-title">BIG DATA</h1>
+           
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <i class="fas fa-database"></i>
+                    <span>2.5Q</span>
+                    <small>BYTES / DIA</small>
+                </div>
+
+                <div class="stat-box">
+                    <i class="fas fa-bolt"></i>
+                    <span>90%</span>
+                    <small>DADOS RECENTES</small>
+                </div>
+
+                <div class="stat-box">
+                    <i class="fas fa-microchip"></i>
+                    <span>320TB</span>
+                    <small>UPLOAD MÉDIO/S</small>
+                </div>
+            </div>
+
+            <p style="font-family: var(--font-tech); color: var(--neon-purple); margin-top: 45px; letter-spacing: 3px; opacity: 0.9; text-shadow: 0 0 5px var(--neon-purple);">
+                INTERFACE DE INTELIGÊNCIA PREDITIVA v4.0
+            </p>
+        </div>
+
+        <div style="position: absolute; bottom: 30px; color: var(--neon-pink); font-size: 2rem; animation: bounce 2s infinite;">
+            <i class="fas fa-angle-double-down"></i>
         </div>
     </header>
 
-    <main>
-        <section id="hero">
-            <h1 class="hero-glitch">BIG DATA <br> REIMAGINADO</h1>
-            <p class="hero-subtitle">Transformando o caos em inteligência preditiva.</p>
-            <a href="#intro" class="btn-neon hover-trigger">Explorar Sistema</a>
-        </section>
-
-        <section id="intro">
-            <div class="container">
-                <div class="glass-card reveal">
-                    <h2 style="color: var(--neon-blue); margin-bottom: 20px;">O Novo Petróleo Digital</h2>
-                    <p style="font-size: 1.2rem;">
-                        Big Data não é apenas sobre ter muitos dados. É sobre a capacidade computacional de processar petabytes de informações não estruturadas em milissegundos. Na Nexus, utilizamos algoritmos quânticos e redes neurais profundas para decifrar padrões invisíveis ao olho humano.
-                    </p>
-                </div>
+    <div class="container">
+        <section style="margin-bottom: 120px;">
+            <div style="font-family: var(--font-tech); color: var(--neon-purple); margin-bottom: 25px;">
+                <h2>// ANÁLISE ESTRATÉGICA</h2>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 1.4rem; line-height: 1.8;">
+                    O Big Data não é apenas tecnologia, é o <strong>poder da narrativa baseada em evidências</strong>. Como comunicadora, seu papel é decodificar esses padrões. <span style="color: var(--neon-blue);">Abaixo, explore os pilares que sustentam essa revolução.</span>
+                </p>
             </div>
         </section>
 
-        <section id="five-vs">
-            <div class="container">
-                <h2 class="section-title reveal">Os 5 Pilares do Dados</h2>
-                <div class="grid">
-                    <div class="glass-card v-card reveal hover-trigger">
-                        <i class="fa-solid fa-server"></i>
-                        <h3>Volume</h3>
-                        <p>Escala de Terabytes a Zettabytes.</p>
+        <section id="v5-terminal">
+            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-pink);">
+                TERMINAL_DE_DADOS: OS 5 Vs
+            </h2>
+
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')">
+                        <i class="fas fa-database"></i> V1_VOLUME
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')">
+                        <i class="fas fa-tachometer-alt"></i> V2_VELOCIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')">
+                        <i class="fas fa-layer-group"></i> V3_VARIEDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')">
+                        <i class="fas fa-shield-check"></i> V4_VERACIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'valor')">
+                        <i class="fas fa-gem"></i> V5_VALOR
+                    </button>
+                </div>
+
+                <div class="terminal-content">
+                    <div id="volume" class="content-panel active">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUANTIDADE BRUTA ]</h2>
+                        <div class="data-item">O processamento de trilhões de gigabytes exige infraestrutura distribuída (Cloud & Edge Computing). O volume transforma o "armazenamento" em "estratégia".</div>
                     </div>
-                    <div class="glass-card v-card reveal hover-trigger">
-                        <i class="fa-solid fa-bolt"></i>
-                        <h3>Velocidade</h3>
-                        <p>Streaming em tempo real e Latência zero.</p>
+
+                    <div id="velocidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FLUXO EM TEMPO REAL ]</h2>
+                        <div class="data-item">Dados que expiram rápido. A análise precisa ocorrer no fluxo (Streaming) para gerar respostas imediatas antes que a oportunidade desapareça.</div>
                     </div>
-                    <div class="glass-card v-card reveal hover-trigger">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <h3>Variedade</h3>
-                        <p>Dados estruturados, vídeos e sensores IoT.</p>
+
+                    <div id="variedade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ CAOS ESTRUTURADO ]</h2>
+                        <div class="data-item">Vídeos, áudios, textos e sensores IoT. O Big Data integra o mundo estruturado e o caos não-estruturado em uma única visão.</div>
                     </div>
-                    <div class="glass-card v-card reveal hover-trigger">
-                        <i class="fa-solid fa-check-double"></i>
-                        <h3>Veracidade</h3>
-                        <p>Higienização e precisão absoluta.</p>
+
+                    <div id="veracidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FILTRAGEM DE RUÍDO ]</h2>
+                        <div class="data-item">Qualidade acima de tudo. Sem veracidade, algoritmos tornam-se armas de desinformação. O dado precisa ser limpo e confiável.</div>
                     </div>
-                    <div class="glass-card v-card reveal hover-trigger">
-                        <i class="fa-solid fa-gem"></i>
-                        <h3>Valor</h3>
-                        <p>Insights acionáveis e ROI.</p>
+
+                    <div id="valor" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ O PROPÓSITO FINAL ]</h2>
+                        <div class="data-item">Transformar bits em lucro ou impacto social. Dados sem valor são apenas custo; com valor, tornam-se o novo petróleo.</div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section id="architecture">
-            <div class="container">
-                <h2 class="section-title reveal">Pipeline de Processamento</h2>
-                <div class="pipeline reveal">
-                    
-                    <div class="connector-line"></div>
-
-                    <div class="pipeline-step">
-                        <div class="pipeline-node"><i class="fa-solid fa-magnet fa-2x"></i></div>
-                        <h4>Ingestion</h4>
-                        <p>Kafka / Flume</p>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-node"><i class="fa-solid fa-microchip fa-2x"></i></div>
-                        <h4>Processing</h4>
-                        <p>Spark / Hadoop</p>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-node"><i class="fa-solid fa-database fa-2x"></i></div>
-                        <h4>Storage</h4>
-                        <p>HDFS / S3 / NoSQL</p>
-                    </div>
-                    <div class="pipeline-step">
-                        <div class="pipeline-node"><i class="fa-solid fa-chart-line fa-2x"></i></div>
-                        <h4>Analysis</h4>
-                        <p>ML / AI Models</p>
-                    </div>
-                </div>
+            <div id="botao-link-container" style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
+                <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
+                    <i class="fas fa-external-link-alt"></i> DEMONSTRAÇÃO NASA EYES
+                </a>
             </div>
         </section>
-
-        <section id="dashboard">
-            <div class="container">
-                <h2 class="section-title reveal">Visualização em Tempo Real</h2>
-                <div class="glass-card reveal">
-                    <p style="text-align: center; margin-bottom: 20px; color: #aaa;">Processamento Global (Simulação de Nós)</p>
-                    <div class="chart-container" id="animated-chart">
-                        </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="future">
-            <div class="container reveal">
-                <div class="glass-card" style="border-left: 5px solid var(--neon-pink);">
-                    <h2>O Futuro é Autônomo</h2>
-                    <p style="margin-top: 15px;">
-                        Integração total com Edge Computing e IA Generativa para construir o futuro sem intervenção humana.
-                    </p>
-                    <button class="btn-neon hover-trigger" style="margin-top: 30px;">Solicitar Demo</button>
-                </div>
-            </div>
-        </section>
-    </main>
+    </div>
 
     <footer>
-        <div class="container">
-            <h3 style="color: var(--neon-pink);">NEXUS DATA SYSTEMS</h3>
-            <p>&copy; 2030 Nexus Global Inc.</p>
-        </div>
+        <p style="color: var(--neon-pink); font-family: var(--font-tech);">INTERFACE | BY MELISSA | 2026</p>
     </footer>
 
+    <style>
+        /* CSS REFINADO PARA O TERMINAL */
+        .terminal-container {
+            display: flex;
+            background: rgba(10, 0, 10, 0.95);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            border-radius: 4px;
+            min-height: 400px;
+            overflow: hidden;
+        }
+
+        .terminal-sidebar {
+            width: 250px;
+            background: rgba(20, 0, 20, 1);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .v-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 20px;
+            text-align: left;
+            font-family: var(--font-tech);
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .v-btn i { margin-right: 10px; width: 20px; }
+
+        .v-btn:hover {
+            color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .v-btn.active {
+            color: #fff;
+            background: rgba(255, 0, 127, 0.15);
+            border-left: 4px solid var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Efeito de carregamento no botão ativo */
+        .v-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 2px; width: 100%;
+            background: var(--neon-pink);
+            animation: btnLoad 2s infinite linear;
+        }
+        @keyframes btnLoad { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        .terminal-content {
+            flex: 1;
+            padding: 40px;
+            background: radial-gradient(circle at center, rgba(30,0,30,1) 0%, rgba(0,0,0,1) 100%);
+        }
+
+        .content-panel {
+            display: none;
+            animation: panelIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+        }
+
+        .content-panel.active { display: block; }
+
+        @keyframes panelIn {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .btn-terminal {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: var(--font-tech);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-terminal:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+    </style>
+
     <script>
-        // JS IDENTICO AO ANTERIOR
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    initChart();
-                }, 800);
-            }, 1500);
-        });
+        // Função de troca de abas corrigida
+        function openV(evt, vName) {
+            const panels = document.querySelectorAll(".content-panel");
+            const buttons = document.querySelectorAll(".v-btn");
 
-        const canvas = document.getElementById('bg-canvas');
+            panels.forEach(p => p.classList.remove("active"));
+            buttons.forEach(b => b.classList.remove("active"));
+
+            document.getElementById(vName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Relógio
+        setInterval(() => {
+            const clock = document.getElementById('live-clock');
+            if(clock) clock.innerText = new Date().toLocaleTimeString('pt-BR');
+        }, 1000);
+
+        // Matrix Rain
+        const canvas = document.getElementById('dataCanvas');
         const ctx = canvas.getContext('2d');
-        let particlesArray;
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const columns = Math.floor(width / 15);
+        const drops = new Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 0, 5, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#ff00ff";
+            ctx.font = "15px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = Math.floor(Math.random() * 2);
+                ctx.fillText(text, i * 15, drops[i] * 15);
+                if (drops[i] * 15 > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
-
-        const mouse = { x: null, y: null, radius: 150 };
-
-        window.addEventListener('mousemove', (event) => {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-
-                if (distance < mouse.radius + this.size) {
-                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 10;
-                    if (mouse.x > this.x && this.x > 10) this.x -= 10;
-                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 10;
-                    if (mouse.y > this.y && this.y > 10) this.y -= 10;
-                }
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 0.5) - 0.25;
-                let directionY = (Math.random() * 0.5) - 0.25;
-                let color = '#ff008c';
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-            }
-        }
-
-        function connect() {
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        let opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(255, 0, 140,' + opacityValue + ')';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animateParticles() {
-            requestAnimationFrame(animateParticles);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
-
-        initParticles();
-        animateParticles();
-
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.left = e.clientX + 'px';
-        });
-        document.querySelectorAll('a, button, .v-card').forEach(item => {
-            item.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            item.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            const elementVisible = 100;
-            revealElements.forEach((reveal) => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('active');
-                }
-            });
-            const header = document.getElementById('navbar');
-            if(window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        };
-        window.addEventListener('scroll', revealOnScroll);
-
-        function initChart() {
-            const chartContainer = document.getElementById('animated-chart');
-            const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
-            months.forEach((m, index) => {
-                const bar = document.createElement('div');
-                bar.classList.add('bar');
-                bar.style.height = '0%';
-                const label = document.createElement('span');
-                label.innerText = m;
-                bar.appendChild(label);
-                chartContainer.appendChild(bar);
-                setTimeout(() => {
-                    const h = Math.floor(Math.random() * 80) + 20; 
-                    bar.style.height = h + '%';
-                }, index * 200);
-                setInterval(() => {
-                    const newH = Math.floor(Math.random() * 80) + 20;
-                    bar.style.height = newH + '%';
-                }, 2000 + (index * 500));
-            });
-        }
     </script>
 </body>
 </html>
