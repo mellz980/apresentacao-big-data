@@ -53,3 +53,317 @@
             align-items: center;
             /* Removi o clip-path anterior para focar na imersão 3D */
             background: #020205;
+            perspective: 1000px; /* Define a profundidade 3D */
+        }
+
+        /* O Container para o conteúdo de texto (fica na frente da animação) */
+        .header-content {
+            z-index: 2;
+            text-align: center;
+            /* Fundo sutil atrás do texto para melhorar leitura */
+            background: radial-gradient(circle, rgba(2, 2, 5, 0.8) 0%, rgba(2, 2, 5, 0) 70%);
+            padding: 50px;
+            border-radius: 50%;
+        }
+
+        /* A Grade 3D Animada */
+        .tech-grid-3d {
+            position: absolute;
+            width: 200%; /* Mais largo para cobrir rotação */
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            z-index: 1;
+            
+            /* Cria as linhas da grade usando gradientes */
+            background-image: 
+                linear-gradient(transparent 0%, rgba(0, 243, 255, 0.3) 2%, transparent 3%), /* Linhas horizontais */
+                linear-gradient(90deg, transparent 0%, rgba(188, 19, 254, 0.2) 2%, transparent 3%); /* Linhas verticais */
+            background-size: 100px 100px; /* Tamanho dos quadrados da grade */
+            
+            /* Inclina o plano para dar o efeito de chão 3D */
+            transform: rotateX(75deg); 
+
+            /* Animação de movimento */
+            animation: moveGridForward 4s linear infinite;
+
+            /* Máscara para suavizar o horizonte (as linhas somem ao longe) */
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        }
+
+        @keyframes moveGridForward {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                /* Move a posição do fundo exatamente o tamanho de um quadrado (100px) para criar um loop perfeito */
+                background-position: 0 100px; 
+            }
+        }
+
+        /* Partículas Flutuantes Adicionais */
+        .floating-particles {
+            position: absolute; width: 100%; height: 100%; z-index: 1;
+            background-image: radial-gradient(circle, var(--neon-blue) 1px, transparent 1px);
+            background-size: 120px 120px;
+            animation: particleFloat 60s linear infinite;
+            opacity: 0.4;
+        }
+        @keyframes particleFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px -1000px; }
+        }
+
+
+        /* Estilos de Texto do Header (Mantidos do anterior) */
+        .hero-title {
+            font-family: var(--font-tech);
+            font-size: 6rem; font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.5));
+            letter-spacing: 15px;
+            animation: glitch 3s infinite alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 3px 0 var(--neon-purple), -3px 0 var(--neon-blue); opacity: 1; }
+            20% { text-shadow: -3px 0 var(--neon-purple), 3px 0 var(--neon-blue); opacity: 0.8;}
+            40% { text-shadow: 3px 0 var(--neon-purple), -3px 0 var(--neon-blue); opacity: 1;}
+            100% { text-shadow: 0 0 transparent; }
+        }
+
+        /* =========================================
+           FIM DA NOVA ANIMAÇÃO DO HEADER
+        ========================================= */
+
+
+        /* --- SECTION SYSTEM --- */
+        .container { max-width: 1400px; margin: 0 auto; padding: 100px 20px; }
+
+        .section-header {
+            border-left: 5px solid var(--neon-blue);
+            padding-left: 20px; margin-bottom: 50px;
+            font-family: var(--font-tech);
+        }
+
+        /* --- INTERACTIVE 5V'S TERMINAL --- */
+        .terminal-container {
+            background: rgba(5, 5, 15, 0.8);
+            border: 1px solid var(--border-glass);
+            border-radius: 15px;
+            display: flex; min-height: 500px;
+            overflow: hidden; box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-sidebar {
+            width: 300px; background: rgba(0, 243, 255, 0.03);
+            border-right: 1px solid var(--border-glass);
+            display: flex; flex-direction: column;
+        }
+
+        .v-btn {
+            background: transparent; border: none; color: #888;
+            padding: 25px; text-align: left; cursor: pointer;
+            font-family: var(--font-tech); font-size: 1rem;
+            transition: 0.3s; border-bottom: 1px solid rgba(0, 243, 255, 0.05);
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        .v-btn i { font-size: 1.5rem; transition: 0.3s; }
+
+        .v-btn:hover, .v-btn.active {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-blue);
+            box-shadow: inset 5px 0 0 var(--neon-blue);
+        }
+
+        .v-btn.active i { transform: scale(1.2); filter: drop-shadow(0 0 5px var(--neon-blue)); }
+
+        .terminal-content {
+            flex: 1; padding: 50px; position: relative;
+            background: radial-gradient(circle at top right, rgba(188, 19, 254, 0.05), transparent);
+        }
+
+        .content-panel { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .content-panel.active { display: block; }
+
+        .content-panel h3 {
+            font-family: var(--font-tech); font-size: 2.5rem;
+            color: var(--neon-purple); margin-bottom: 20px;
+        }
+
+        .data-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.03); padding: 20px;
+            border-radius: 8px; border-left: 2px solid var(--neon-purple);
+        }
+
+        .data-item strong { color: var(--neon-blue); display: block; margin-bottom: 5px; }
+
+        /* --- ARGUMENTAÇÃO & CARDS --- */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            padding: 40px; border-radius: 20px;
+            position: relative; overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: ""; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .glass-card:hover::before { left: 100%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        footer {
+            text-align: center; padding: 100px; border-top: 1px solid var(--border-glass);
+            font-family: var(--font-tech); opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+
+    <header>
+        <div class="tech-grid-3d"></div>
+        <div class="floating-particles"></div>
+
+        <div class="header-content">
+            <p style="letter-spacing: 10px; color: var(--neon-blue); margin-bottom: 20px; font-weight: bold;">[ PROCESSANDO DADOS EM TEMPO REAL ]</p>
+            <h1 class="hero-title">BIG DATA</h1>
+            <p style="font-family: var(--font-tech); margin-top: 20px; letter-spacing: 5px;">QUANTUM INTERFACE V.2026</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section style="margin-bottom: 120px;">
+            <div class="section-header">
+                <h2>POR QUE É A MELHOR OPÇÃO?</h2>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 1.2rem; line-height: 2; color: #ccc;">
+                    Diferente da análise de dados convencional, o <span style="color: var(--neon-blue);">Big Data</span> permite a ingestão de dados em escala de petabytes. Enquanto sistemas tradicionais travam na complexidade, nossa arquitetura distribui o processamento em clusters (Hadoop/Spark), transformando o ruído digital em <strong style="color: var(--neon-purple);">Inteligência Preditiva</strong>. Não é apenas sobre guardar dados, é sobre antecipar o próximo passo do mercado.
+                </p>
+            </div>
+        </section>
+
+        <section id="v5-terminal">
+            <div class="section-header">
+                <h2>CORE ARCHITECTURE: OS 5 Vs</h2>
+            </div>
+
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')">
+                        <i class="fas fa-database"></i> VOLUME
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')">
+                        <i class="fas fa-bolt"></i> VELOCIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')">
+                        <i class="fas fa-share-nodes"></i> VARIEDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')">
+                        <i class="fas fa-shield-check"></i> VERACIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'valor')">
+                        <i class="fas fa-gem"></i> VALOR
+                    </button>
+                </div>
+
+                <div class="terminal-content">
+                    
+                    <div id="volume" class="content-panel active">
+                        <h3>VOLUME</h3>
+                        <p>A quantidade massiva de dados gerados diariamente. Estamos falando de Zettabytes.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Escalabilidade:</strong> Armazenamento em sistemas distribuídos como HDFS.</div>
+                            <div class="data-item"><strong>IoT:</strong> Bilhões de sensores enviando logs a cada nanossegundo.</div>
+                            <div class="data-item"><strong>Histórico:</strong> Análise de décadas de logs em minutos.</div>
+                        </div>
+                    </div>
+
+                    <div id="velocidade" class="content-panel">
+                        <h3>VELOCIDADE</h3>
+                        <p>A taxa na qual os dados são gerados e processados em tempo real.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Streaming:</strong> Processamento imediato com Apache Kafka.</div>
+                            <div class="data-item"><strong>Real-time:</strong> Decisões em milissegundos no mercado financeiro.</div>
+                            <div class="data-item"><strong>Batch vs Stream:</strong> Transição do processamento em lote para o fluxo contínuo.</div>
+                        </div>
+                    </div>
+
+                    <div id="variedade" class="content-panel">
+                        <h3>VARIEDADE</h3>
+                        <p>Diferentes tipos de fontes de dados que não cabem em tabelas SQL tradicionais.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Estruturados:</strong> Tabelas de bancos de dados relacionais.</div>
+                            <div class="data-item"><strong>Não-Estruturados:</strong> Vídeos, áudios, imagens e PDFs.</div>
+                            <div class="data-item"><strong>Semi-Estruturados:</strong> Arquivos JSON, XML e logs de servidores.</div>
+                        </div>
+                    </div>
+
+                    <div id="veracidade" class="content-panel">
+                        <h3>VERACIDADE</h3>
+                        <p>A confiabilidade e qualidade dos dados obtidos.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Data Cleaning:</strong> Remoção de ruídos e informações irrelevantes.</div>
+                            <div class="data-item"><strong>Governança:</strong> Controle sobre quem criou o dado e sua origem.</div>
+                            <div class="data-item"><strong>Incerteza:</strong> Lidar com dados imprecisos de redes sociais.</div>
+                        </div>
+                    </div>
+
+                    <div id="valor" class="content-panel">
+                        <h3>VALOR</h3>
+                        <p>O propósito final: transformar bits em lucro e conhecimento.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>ROI:</strong> Retorno sobre o investimento em infraestrutura de dados.</div>
+                            <div class="data-item"><strong>Insights:</strong> Descoberta de padrões ocultos de consumo.</div>
+                            <div class="data-item"><strong>Predição:</strong> Modelos de IA que prevêem o futuro com base no passado.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 | BIG DATA ARCHITECTURE | BY LÍVIA JOURNALIST</p>
+        <div style="margin-top: 20px; color: var(--neon-blue); font-size: 0.8rem;">
+            SYSTEM STATUS: <span style="color: lime;">ONLINE</span>
+        </div>
+    </footer>
+
+    <script>
+        function openV(evt, vName) {
+            var i, content, vBtns;
+            content = document.getElementsByClassName("content-panel");
+            for (i = 0; i < content.length; i++) {
+                content[i].classList.remove("active");
+            }
+            vBtns = document.getElementsByClassName("v-btn");
+            for (i = 0; i < vBtns.length; i++) {
+                vBtns[i].classList.remove("active");
+            }
+            document.getElementById(vName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
