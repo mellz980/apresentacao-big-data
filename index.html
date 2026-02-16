@@ -3,623 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DATA_STREAM // Big Data Analytics</title>
+    <title>BIG DATA | CORE_SYSTEM v5.0</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-card: rgba(15, 15, 25, 0.7);
+            --bg-dark: #050005;
             --neon-pink: #ff007f;
             --neon-pink-glow: rgba(255, 0, 127, 0.5);
-            --accent-purple: #6a0dad;
-            --text-main: #e0e0e0;
-            --text-dim: #a0a0a0;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --neon-purple: #9d00ff;
+            --neon-blue: #00d2ff;
+            --glass: rgba(255, 0, 127, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --font-tech: 'Orbitron', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --font-main: 'Inter', sans-serif;
         }
 
-        /* --- Global Reset & Scrollbar --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: default;
-        }
-
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         body {
             background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            color: #fff;
+            font-family: var(--font-main);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 10px; }
-
-        /* --- Background Canvas --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #1a0b1a 0%, #0a0a0f 100%);
+        /* --- OVERLAYS: SCANLINES & HUD --- */
+        .scanline {
+            width: 100%; height: 100vh; position: fixed; top: 0; left: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.2) 51%);
+            background-size: 100% 4px; z-index: 2000; pointer-events: none; opacity: 0.15;
         }
 
-        /* --- Header & Progress Bar --- */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(to right, var(--accent-purple), var(--neon-pink));
-            width: 0%;
-            z-index: 2000;
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(to right, var(--neon-purple), var(--neon-pink));
+            width: 0%; z-index: 2100; box-shadow: 0 0 10px var(--neon-pink);
         }
 
+        .hud-overlay {
+            position: fixed; padding: 20px; font-family: var(--font-code);
+            font-size: 0.7rem; color: var(--neon-pink); z-index: 1500;
+            pointer-events: none; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .top-left { top: 10px; left: 10px; border-left: 2px solid var(--neon-pink); padding-left: 10px; }
+        .top-right { top: 10px; right: 10px; text-align: right; border-right: 2px solid var(--neon-blue); padding-right: 10px; color: var(--neon-blue); }
+
+        /* --- BACKGROUND: BINARY RAIN & 3D GRID --- */
+        #bg-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at center, #1a001a 0%, #000 100%);
+        }
+        #dataCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.2; }
+        
+        .grid-3d {
+            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background-image: linear-gradient(rgba(255, 0, 127, 0.1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 0, 127, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px; transform: rotateX(60deg);
+            animation: moveGrid 5s linear infinite;
+        }
+        @keyframes moveGrid { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
+
+        /* --- HEADER & HERO --- */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            transition: var(--transition);
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
         }
 
-        header.scrolled { padding: 10px 5%; background: rgba(10, 10, 15, 0.9); }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: var(--neon-pink);
-            font-size: 1.5rem;
-            text-shadow: 0 0 10px var(--neon-pink-glow);
+        .hero-title {
+            font-family: var(--font-tech); font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900; letter-spacing: 15px; color: #fff;
+            text-shadow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-purple);
+            margin-bottom: 10px; position: relative;
         }
-
-        nav ul { display: flex; list-style: none; gap: 30px; }
-        nav a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            transition: var(--transition);
-        }
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--neon-pink);
-            transition: var(--transition);
-        }
-        nav a:hover::after { width: 100%; }
-
-        /* --- Hero Section --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 10%;
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #fff, var(--neon-pink), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine { to { background-position: 200% center; } }
 
         .typewriter {
-            font-size: 1.2rem;
-            color: var(--text-dim);
-            min-height: 1.5em;
-            margin-bottom: 40px;
+            font-family: var(--font-code); font-size: 1.2rem; color: var(--neon-blue);
+            min-height: 1.5em; letter-spacing: 3px; margin-bottom: 40px;
         }
 
-        /* --- Advanced Buttons --- */
-        .btn-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-
-        .btn {
-            padding: 15px 35px;
-            font-family: 'Orbitron', sans-serif;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: var(--transition);
+        /* --- BUTTONS --- */
+        .btn-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .btn-tech {
+            padding: 15px 40px; font-family: var(--font-tech); background: transparent;
+            color: #fff; border: 1px solid var(--neon-pink); position: relative;
+            overflow: hidden; transition: 0.4s; font-weight: bold; text-transform: uppercase;
         }
-
-        /* Neon Pulsing */
-        .btn-neon {
-            background: transparent;
-            color: var(--neon-pink);
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 15px var(--neon-pink-glow);
-            animation: pulse-glow 2s infinite;
+        .btn-tech:hover {
+            background: var(--neon-pink); box-shadow: 0 0 30px var(--neon-pink);
+            color: #000; transform: translateY(-5px);
         }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 5px var(--neon-pink-glow); }
-            50% { box-shadow: 0 0 25px var(--neon-pink-glow); }
-            100% { box-shadow: 0 0 5px var(--neon-pink-glow); }
+        .btn-tech::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
         }
+        .btn-tech:hover::before { left: 100%; }
 
-        /* Glitch Button */
-        .btn-glitch {
-            background: var(--accent-purple);
-            color: white;
+        /* --- CONTENT SECTIONS --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+        
+        .glass-card {
+            background: rgba(10, 0, 10, 0.8); border: 1px solid var(--border-glass);
+            border-radius: 4px; padding: 40px; backdrop-filter: blur(10px);
+            position: relative; margin-bottom: 60px; transition: 0.3s;
         }
-        .btn-glitch:hover {
-            animation: glitch-anim 0.3s infinite;
-            background: var(--neon-pink);
+        .glass-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 30px rgba(255, 0, 127, 0.2); }
+
+        .section-tag {
+            color: var(--neon-pink); font-family: var(--font-code); font-weight: bold;
+            display: block; margin-bottom: 15px; letter-spacing: 5px;
         }
 
-        @keyframes glitch-anim {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
+        /* --- THE TERMINAL 5Vs --- */
+        .terminal {
+            display: flex; background: #000; border: 1px solid var(--neon-blue);
+            min-height: 450px; border-radius: 4px; overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.1);
         }
+        .term-sidebar {
+            width: 250px; background: #0a000a; border-right: 1px solid var(--border-glass);
+            display: flex; flex-direction: column;
+        }
+        .term-btn {
+            background: transparent; border: none; padding: 20px; text-align: left;
+            color: #555; font-family: var(--font-tech); font-size: 0.8rem;
+            transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .term-btn:hover { color: var(--neon-blue); background: rgba(0,210,255,0.05); }
+        .term-btn.active {
+            color: #fff; background: rgba(255,0,127,0.1); border-left: 4px solid var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+        .term-body { flex: 1; padding: 40px; position: relative; background: radial-gradient(circle at center, #110011 0%, #000 100%); }
+        .term-content { display: none; animation: fadeIn 0.5s ease forwards; }
+        .term-content.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Sections Style --- */
-        section { padding: 100px 10%; position: relative; }
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            text-align: center;
-        }
-        .section-title span { color: var(--neon-pink); }
+        /* --- CHARTS --- */
+        .chart-container { margin-top: 50px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; }
 
-        /* Glass Cards */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        /* --- STATS GRID --- */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
         }
+        .stat-card {
+            padding: 30px; text-align: center; border: 1px solid var(--border-glass); background: rgba(255,255,255,0.02);
+        }
+        .stat-card i { font-size: 2.5rem; color: var(--neon-blue); margin-bottom: 15px; }
+        .stat-card h3 { font-family: var(--font-tech); font-size: 2rem; color: var(--neon-pink); }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-pink);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card i {
-            font-size: 2.5rem;
-            color: var(--neon-pink);
-            margin-bottom: 20px;
-        }
-
-        /* --- Scroll Reveal --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Stats Section --- */
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-top: 50px;
-        }
-        .stat-item { text-align: center; }
-        .stat-number {
-            font-size: 3.5rem;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-pink);
-            display: block;
-        }
-
-        /* --- FAQ Accordion --- */
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item {
-            background: var(--bg-card);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            border-left: 4px solid var(--accent-purple);
-        }
-        .faq-question {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0,1,0,1);
-            color: var(--text-dim);
-        }
-        .faq-item.active .faq-answer {
-            max-height: 1000px;
-            padding: 0 20px 20px 20px;
-        }
-
-        /* --- Footer --- */
+        /* --- FOOTER --- */
         footer {
-            padding: 50px 10%;
-            background: #050508;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
+            padding: 80px 20px; text-align: center; border-top: 1px solid var(--border-glass);
+            font-family: var(--font-code); color: #555;
         }
-        .social-links { margin: 20px 0; display: flex; justify-content: center; gap: 20px; }
-        .social-links a { color: var(--text-main); font-size: 1.5rem; transition: var(--transition); }
-        .social-links a:hover { color: var(--neon-pink); transform: scale(1.2); }
 
-        /* Responsive */
+        /* --- UTILS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 768px) {
-            header { padding: 15px 5%; }
-            nav { display: none; } /* Simplified for mobile example */
-            .hero h1 { font-size: 3rem; }
+            .terminal { flex-direction: column; }
+            .term-sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+            .term-btn { white-space: nowrap; }
+            .hero-title { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
     <div id="scroll-progress"></div>
-    <canvas id="particle-canvas"></canvas>
+    <div class="scanline"></div>
 
-    <header id="main-header">
-        <div class="logo">DATA_STREAM</div>
-        <nav>
-            <ul>
-                <li><a href="#about">Conceito</a></li>
-                <li><a href="#5vs">Os 5 Vs</a></li>
-                <li><a href="#tech">Tecnologia</a></li>
-                <li><a href="#stats">Impacto</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-        </nav>
+    <div class="hud-overlay top-left">
+        CORE_USER: LÍVIA_ADMIN<br>
+        STATUS: SYSTEM_ACTIVE<br>
+        SEC_LEVEL: ALPHA_7
+    </div>
+    <div class="hud-overlay top-right">
+        CLOCK: <span id="clock">00:00:00</span><br>
+        LOC: 23.5505° S, 46.6333° W<br>
+        NETWORK: ENCRYPTED
+    </div>
+
+    <div id="bg-container">
+        <canvas id="dataCanvas"></canvas>
+        <div class="grid-3d"></div>
+    </div>
+
+    <header>
+        <span class="section-tag" style="font-size: 0.9rem;">[ INICIANDO PROTOCOLO BIG DATA ]</span>
+        <h1 class="hero-title">BIG DATA</h1>
+        <div class="typewriter" id="typewriter"></div>
+        <div class="btn-group">
+            <button class="btn-tech">Acessar Core</button>
+            <button class="btn-tech" style="border-color: var(--neon-blue);">Análise Preditiva</button>
+        </div>
     </header>
 
-    <section class="hero">
-        <h1 id="hero-title">O PODER DOS DADOS</h1>
-        <div class="typewriter" id="typewriter"></div>
-        <div class="btn-container">
-            <button class="btn btn-neon ripple">Explorar Fluxo</button>
-            <button class="btn btn-glitch">Sistema Ativo</button>
-            <button class="btn magnetic" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border);">Documentação</button>
-        </div>
-    </section>
+    <div class="container">
+        <section class="reveal">
+            <div class="glass-card">
+                <span class="section-tag">// DEFINIÇÃO</span>
+                <h2 style="font-family: var(--font-tech); margin-bottom: 20px;">A Nova Era da Inteligência</h2>
+                <p style="font-size: 1.1rem; color: #ccc;">
+                    Big Data não é apenas sobre o volume de arquivos. É sobre a <strong style="color: var(--neon-pink);">velocidade do pensamento algorítmico</strong>. 
+                    Em um mundo onde 90% dos dados foram criados apenas nos últimos dois anos, a capacidade de filtrar o sinal do ruído é o que define o futuro da inovação global.
+                </p>
+            </div>
+        </section>
 
-    <section id="about" class="reveal">
-        <h2 class="section-title">O QUE É <span>BIG DATA?</span></h2>
-        <div class="grid-layout">
-            <div class="card">
-                <p>Big Data refere-se a conjuntos de dados tão volumosos e complexos que softwares de processamento de dados tradicionais são incapazes de gerenciá-los. Não é apenas sobre o tamanho, mas sobre as possibilidades de extrair inteligência do caos.</p>
+        <section class="reveal">
+            <span class="section-tag">// SYSTEM_TERMINAL</span>
+            <h2 style="font-family: var(--font-tech); margin-bottom: 30px;">Arquitetura dos 5Vs</h2>
+            <div class="terminal">
+                <div class="term-sidebar">
+                    <button class="term-btn active" onclick="switchTerm(event, 'v1')"><i class="fas fa-database"></i> VOLUME</button>
+                    <button class="term-btn" onclick="switchTerm(event, 'v2')"><i class="fas fa-bolt"></i> VELOCIDADE</button>
+                    <button class="term-btn" onclick="switchTerm(event, 'v3')"><i class="fas fa-layer-group"></i> VARIEDADE</button>
+                    <button class="term-btn" onclick="switchTerm(event, 'v4')"><i class="fas fa-shield-halved"></i> VERACIDADE</button>
+                    <button class="term-btn" onclick="switchTerm(event, 'v5')"><i class="fas fa-gem"></i> VALOR</button>
+                </div>
+                <div class="term-body">
+                    <div id="v1" class="term-content active">
+                        <h3 style="color: var(--neon-pink); font-family: var(--font-tech); margin-bottom: 15px;">> VOLUME_DATA</h3>
+                        <p>Processamento de petabytes e zettabytes. O desafio aqui é a escalabilidade horizontal e o armazenamento distribuído em clusters massivos (HDFS).</p>
+                        <div class="chart-container">
+                            <canvas id="chartVolume" height="150"></canvas>
+                        </div>
+                    </div>
+                    <div id="v2" class="term-content">
+                        <h3 style="color: var(--neon-pink); font-family: var(--font-tech); margin-bottom: 15px;">> VELOCIDADE_STREAM</h3>
+                        <p>Dados que perdem o valor em milissegundos. Requer tecnologias de streaming como Apache Kafka e Spark Streaming para análise imediata.</p>
+                    </div>
+                    <div id="v3" class="term-content">
+                        <h3 style="color: var(--neon-pink); font-family: var(--font-tech); margin-bottom: 15px;">> VARIEDADE_FORMATS</h3>
+                        <p>Integração de dados estruturados (SQL), semi-estruturados (JSON/XML) e não-estruturados (Imagens, Vídeos, Áudio).</p>
+                    </div>
+                    <div id="v4" class="term-content">
+                        <h3 style="color: var(--neon-pink); font-family: var(--font-tech); margin-bottom: 15px;">> VERACIDADE_TRUST</h3>
+                        <p>Limpeza de ruído e garantia de autenticidade. Sem dados confiáveis, os algoritmos de IA geram alucinações corporativas.</p>
+                    </div>
+                    <div id="v5" class="term-content">
+                        <h3 style="color: var(--neon-pink); font-family: var(--font-tech); margin-bottom: 15px;">> VALOR_INSIGHT</h3>
+                        <p>O retorno sobre o investimento. O objetivo final é transformar dados brutos em decisões estratégicas que geram impacto e lucro.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card" style="border-color: var(--accent-purple);">
-                <p>Na era da hiperconectividade, cada clique, sensor e transação gera um rastro digital. Big Data é o motor que transforma esses rastros em decisões estratégicas em tempo real.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="5vs" class="reveal">
-        <h2 class="section-title">OS 5 Vs DA <span>MAESTRIA</span></h2>
-        <div class="grid-layout">
-            <div class="card">
-                <i class="fas fa-database"></i>
-                <h3>Volume</h3>
-                <p>Zettabytes de informações geradas diariamente de redes sociais a dispositivos IoT.</p>
+        <section class="reveal" style="margin-top: 100px;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>175 ZB</h3>
+                    <p>Dados globais até 2025</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>68%</h3>
+                    <p>Foco em Ética e LGPD</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>$274B</h3>
+                    <p>Mercado de Analytics 2026</p>
+                </div>
             </div>
-            <div class="card">
-                <i class="fas fa-bolt"></i>
-                <h3>Velocidade</h3>
-                <p>O fluxo de dados é instantâneo e precisa ser processado em tempo real.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-random"></i>
-                <h3>Variedade</h3>
-                <p>Dados estruturados (SQL) e não estruturados (Vídeos, áudios, JSON, logs).</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-check-double"></i>
-                <h3>Veracidade</h3>
-                <p>A qualidade e a confiabilidade do dado são cruciais para a análise correta.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-chart-line"></i>
-                <h3>Valor</h3>
-                <p>O propósito final: transformar dados brutos em lucro, eficiência ou progresso.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="tech" class="reveal">
-        <h2 class="section-title">ECOSSISTEMA <span>TÉCNICO</span></h2>
-        <div class="grid-layout">
-            <div class="card">
-                <h3>Apache Hadoop</h3>
-                <p>Framework para armazenamento distribuído (HDFS) e processamento de grandes clusters.</p>
-            </div>
-            <div class="card">
-                <h3>Apache Spark</h3>
-                <p>Processamento ultra-rápido em memória para análises complexas e Machine Learning.</p>
-            </div>
-            <div class="card">
-                <h3>NoSQL</h3>
-                <p>Bancos de dados flexíveis como MongoDB e Cassandra para escalabilidade infinita.</p>
-            </div>
-        </div>
-        
-        <div style="margin-top: 50px; background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border);">
-            <canvas id="dataChart" height="100"></canvas>
-        </div>
-    </section>
-
-    <section id="stats" class="reveal">
-        <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-number" data-target="175">0</span>
-                <p>Zettabytes até 2025</p>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" data-target="90">0</span>
-                <p>% Dados Gerados nos Últimos 2 Anos</p>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" data-target="450">0</span>
-                <p>ROI Médio em Projetos de IA</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="reveal">
-        <h2 class="section-title">FAQ <span>SISTÊMICO</span></h2>
-        <div class="faq-container">
-            <div class="faq-item">
-                <div class="faq-question">Qual a diferença entre Big Data e Data Science? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer">Big Data é o ativo (os dados massivos), enquanto Data Science é a metodologia e o estudo para extrair insights desses dados.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Big Data viola a privacidade? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer">Depende da implementação. Ética e LGPD são pilares fundamentais para garantir que o processamento respeite o anonimato dos usuários.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">O que é um Data Lake? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer">É um repositório centralizado que permite armazenar todos os seus dados estruturados e não estruturados em qualquer escala.</div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <footer>
-        <div class="logo">DATA_STREAM</div>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-        <p>&copy; 2026 Futurist Data Intelligence. Todos os direitos reservados.</p>
+        <p>[ DATA_CORE v5.0 ] - DESENVOLVIDO PARA INTERFACE LÍVIA</p>
+        <p style="margin-top: 10px; font-size: 0.7rem;">&copy; 2026 NEURAL_NETWORK_DISTRIBUTION</p>
     </footer>
 
     <script>
-        // --- 1. Canvas Particles Engine ---
-        const canvas = document.getElementById('particle-canvas');
+        // --- 1. Relógio HUD ---
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR');
+        }, 1000);
+
+        // --- 2. Chuva de Dados Binários ---
+        const canvas = document.getElementById('dataCanvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        const columns = Math.floor(width / 20);
+        const drops = new Array(columns).fill(1);
 
-        window.addEventListener('resize', resize);
-        resize();
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 0, 5, 0.05)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#ff007f";
+            ctx.font = "14px 'Fira Code'";
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.1;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-                this.color = Math.random() > 0.5 ? '#ff007f' : '#6a0dad';
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+            for (let i = 0; i < drops.length; i++) {
+                const text = Math.random() > 0.5 ? "0" : "1";
+                ctx.fillText(text, i * 20, drops[i] * 20);
+                if (drops[i] * 20 > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
             }
         }
+        setInterval(drawMatrix, 50);
 
-        function initParticles() {
-            for (let i = 0; i < 150; i++) {
-                particles.push(new Particle());
+        // --- 3. Efeito Typewriter ---
+        const words = ["Decodificando o futuro...", "Processando Petabytes...", "Extraindo Valor do Caos.", "Conectando Pontos Invisíveis."];
+        let wordIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typewriterElem = document.getElementById('typewriter');
+
+        function type() {
+            const currentWord = words[wordIdx];
+            if (isDeleting) {
+                typewriterElem.textContent = currentWord.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typewriterElem.textContent = currentWord.substring(0, charIdx + 1);
+                charIdx++;
             }
-        }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-        initParticles();
-        animate();
-
-        // --- 2. Typewriter Effect ---
-        const text = "Analisando trilhões de conexões para moldar o amanhã...";
-        let index = 0;
-        function typewriter() {
-            if (index < text.length) {
-                document.getElementById('typewriter').innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typewriter, 50);
+            if (!isDeleting && charIdx === currentWord.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                wordIdx = (wordIdx + 1) % words.length;
             }
+            setTimeout(type, isDeleting ? 50 : 100);
         }
-        window.onload = typewriter;
+        type();
 
-        // --- 3. Scroll Effects ---
+        // --- 4. Controle do Terminal ---
+        function switchTerm(evt, id) {
+            document.querySelectorAll('.term-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.term-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // --- 5. Scroll Progress & Reveal ---
         window.addEventListener('scroll', () => {
-            // Progress Bar
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
 
-            // Header Background
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-
-            // Reveal Sections
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(r => {
-                const windowHeight = window.innerHeight;
-                const revealTop = r.getBoundingClientRect().top;
-                if (revealTop < windowHeight - 150) r.classList.add('active');
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
             });
         });
 
-        // --- 4. Counter Animation ---
-        const counters = document.querySelectorAll('.stat-number');
-        const observerOptions = { threshold: 1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = +entry.target.getAttribute('data-target');
-                    let count = 0;
-                    const updateCount = () => {
-                        const increment = target / 100;
-                        if (count < target) {
-                            count += increment;
-                            entry.target.innerText = Math.ceil(count);
-                            setTimeout(updateCount, 20);
-                        } else {
-                            entry.target.innerText = target;
-                        }
-                    };
-                    updateCount();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        counters.forEach(c => observer.observe(c));
-
-        // --- 5. Interactive Buttons & Ripple ---
-        document.querySelectorAll('.ripple').forEach(button => {
-            button.addEventListener('click', function(e) {
-                let x = e.clientX - e.target.offsetLeft;
-                let y = e.clientY - e.target.offsetTop;
-                let ripples = document.createElement('span');
-                ripples.style.left = x + 'px';
-                ripples.style.top = y + 'px';
-                this.appendChild(ripples);
-                setTimeout(() => ripples.remove(), 1000);
-            });
-        });
-
-        // Magnetic Effect
-        document.querySelectorAll('.magnetic').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = `translate(0px, 0px)`;
-            });
-        });
-
-        // --- 6. FAQ Accordion ---
-        document.querySelectorAll('.faq-question').forEach(q => {
-            q.addEventListener('click', () => {
-                const item = q.parentElement;
-                item.classList.toggle('active');
-                const icon = q.querySelector('i');
-                icon.classList.toggle('fa-plus');
-                icon.classList.toggle('fa-minus');
-            });
-        });
-
-        // --- 7. Chart.js Implementation ---
-        const ctxChart = document.getElementById('dataChart').getContext('2d');
-        new Chart(ctxChart, {
+        // --- 6. Chart.js ---
+        const ctxVol = document.getElementById('chartVolume').getContext('2d');
+        new Chart(ctxVol, {
             type: 'line',
             data: {
-                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                labels: ['2020', '2022', '2024', '2026'],
                 datasets: [{
-                    label: 'Volume de Dados Global (Zettabytes)',
-                    data: [40, 64, 79, 120, 147, 175, 210],
+                    label: 'ZB de Dados',
+                    data: [45, 90, 140, 210],
                     borderColor: '#ff007f',
-                    backgroundColor: 'rgba(255, 0, 127, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true
+                    backgroundColor: 'rgba(255, 0, 127, 0.2)',
+                    fill: true,
+                    tension: 0.4
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { labels: { color: '#fff', font: { family: 'Orbitron' } } } },
-                scales: {
-                    y: { ticks: { color: '#a0a0a0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                    x: { ticks: { color: '#a0a0a0' }, grid: { display: false } }
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { grid: { display: false }, ticks: { color: '#666' } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#666' } }
                 }
             }
+        });
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
     </script>
 </body>
