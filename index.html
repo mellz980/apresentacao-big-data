@@ -269,182 +269,210 @@
         </section>
 
         <section id="v5-terminal">
-            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px;">
+            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 40px; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-pink);">
                 TERMINAL_DE_DADOS: OS 5 Vs
             </h2>
-            <div id="botao-link-container" style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
-    <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
-        <i class="fas fa-external-link-alt"></i> DEMONSTRAÇÃO
-    </a>
-</div>
 
-        <style>
-            .btn-terminal {
-                display: inline-flex;
-                align-items: center;
-                gap: 10px;
-                padding: 12px 25px;
-                background: transparent;
-                border: 1px solid var(--neon-pink);
-                color: var(--neon-pink);
-                font-family: var(--font-tech);
-                font-size: 0.8rem;
-                text-decoration: none;
-                letter-spacing: 2px;
-                transition: all 0.3s ease;
-                text-transform: uppercase;
-            }
-       
-            .btn-terminal:hover {
-                background: var(--neon-pink);
-                color: #000;
-                box-shadow: 0 0 15px var(--neon-pink);
-                cursor: pointer;
-            }
-       
-            .btn-terminal i {
-                font-size: 1rem;
-            }
-        </style>
-                <style>
-    :root {
-        --neon-pink: #ff007f;
-        --neon-blue: #00f2ff;
-        --bg-terminal: #0d0d0d;
-        --font-tech: 'Courier New', Courier, monospace;
-    }
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')">
+                        <i class="fas fa-database"></i> V1_VOLUME
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')">
+                        <i class="fas fa-tachometer-alt"></i> V2_VELOCIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')">
+                        <i class="fas fa-layer-group"></i> V3_VARIEDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')">
+                        <i class="fas fa-shield-check"></i> V4_VERACIDADE
+                    </button>
+                    <button class="v-btn" onclick="openV(event, 'valor')">
+                        <i class="fas fa-gem"></i> V5_VALOR
+                    </button>
+                </div>
 
-    /* Container Principal - Ajustado para não quebrar */
-    .terminal-container {
-        display: flex;
-        width: 100%;
-        max-width: 900px; /* Limite de largura para não esticar demais */
-        margin: 20px auto;
-        background: var(--bg-terminal);
-        border: 1px solid var(--neon-blue);
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.15);
-        border-radius: 8px;
-        min-height: 350px;
-        font-family: var(--font-tech);
-        overflow: hidden; /* Garante que as bordas arredondadas cortem o conteúdo */
-    }
+                <div class="terminal-content">
+                    <div id="volume" class="content-panel active">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUANTIDADE BRUTA ]</h2>
+                        <div class="data-item">O processamento de trilhões de gigabytes exige infraestrutura distribuída (Cloud & Edge Computing). O volume transforma o "armazenamento" em "estratégia".</div>
+                    </div>
 
-    /* Sidebar - Fixa à esquerda */
-    .terminal-sidebar {
-        width: 220px;
-        flex-shrink: 0; /* Impede que a sidebar seja esmagada */
-        background: rgba(255, 255, 255, 0.03);
-        display: flex;
-        flex-direction: column;
-        border-right: 1px solid rgba(0, 242, 255, 0.2);
-        padding: 15px 0;
-    }
+                    <div id="velocidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FLUXO EM TEMPO REAL ]</h2>
+                        <div class="data-item">Dados que expiram rápido. A análise precisa ocorrer no fluxo (Streaming) para gerar respostas imediatas antes que a oportunidade desapareça.</div>
+                    </div>
 
-    /* Botões Interativos */
-    .v-btn {
-        background: transparent;
-        border: none;
-        border-left: 4px solid transparent;
-        color: #666;
-        padding: 15px 20px;
-        text-align: left;
-        cursor: pointer;
-        font-family: var(--font-tech);
-        font-size: 0.9rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        text-transform: uppercase;
-    }
+                    <div id="variedade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ CAOS ESTRUTURADO ]</h2>
+                        <div class="data-item">Vídeos, áudios, textos e sensores IoT. O Big Data integra o mundo estruturado e o caos não-estruturado em uma única visão.</div>
+                    </div>
 
-    .v-btn:hover {
-        color: var(--neon-blue);
-        background: rgba(0, 242, 255, 0.05);
-        padding-left: 25px;
-    }
+                    <div id="veracidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FILTRAGEM DE RUÍDO ]</h2>
+                        <div class="data-item">Qualidade acima de tudo. Sem veracidade, algoritmos tornam-se armas de desinformação. O dado precisa ser limpo e confiável.</div>
+                    </div>
 
-    .v-btn.active {
-        color: var(--neon-pink);
-        border-left-color: var(--neon-pink);
-        background: rgba(255, 0, 127, 0.08);
-        text-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
-    }
-
-    /* Área de Conteúdo */
-    .terminal-content {
-        flex-grow: 1;
-        padding: 40px;
-        position: relative;
-        background: linear-gradient(135deg, #121212 0%, #080808 100%);
-    }
-
-    .content-panel {
-        display: none; /* Escondido por padrão */
-        opacity: 0;
-    }
-
-    /* Quando a classe active é
+                    <div id="valor" class="content-panel">
+                        <h2 style="color: var(--neon-blue); font-family: var(--font-tech);">[ O PROPÓSITO FINAL ]</h2>
+                        <div class="data-item">Transformar bits em lucro ou impacto social. Dados sem valor são apenas custo; com valor, tornam-se o novo petróleo.</div>
                     </div>
                 </div>
+            </div>
+
+            <div id="botao-link-container" style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
+                <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
+                    <i class="fas fa-external-link-alt"></i> DEMONSTRAÇÃO NASA EYES
+                </a>
             </div>
         </section>
     </div>
 
     <footer>
-        <p style="color: var(--neon-pink);">INTERFACE | BY MELISSA | 2026</p>
+        <p style="color: var(--neon-pink); font-family: var(--font-tech);">INTERFACE | BY MELISSA | 2026</p>
     </footer>
 
-    <script>
-      function openV(evt, vName) {
-    // Esconde todos os painéis
-    const panels = document.getElementsByClassName("content-panel");
-    for (let i = 0; i < panels.length; i++) {
-        panels[i].classList.remove("active");
-    }
-
-    // Remove a classe 'active' de todos os botões
-    const buttons = document.getElementsByClassName("v-btn");
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove("active");
-    }
-
-    // Mostra o painel atual e adiciona a classe 'active' ao botão
-    document.getElementById(vName).classList.add("active");
-    evt.currentTarget.classList.add("active");
-};
+    <style>
+        /* CSS REFINADO PARA O TERMINAL */
+        .terminal-container {
+            display: flex;
+            background: rgba(10, 0, 10, 0.95);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            border-radius: 4px;
+            min-height: 400px;
+            overflow: hidden;
         }
 
+        .terminal-sidebar {
+            width: 250px;
+            background: rgba(20, 0, 20, 1);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .v-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 20px;
+            text-align: left;
+            font-family: var(--font-tech);
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .v-btn i { margin-right: 10px; width: 20px; }
+
+        .v-btn:hover {
+            color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .v-btn.active {
+            color: #fff;
+            background: rgba(255, 0, 127, 0.15);
+            border-left: 4px solid var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Efeito de carregamento no botão ativo */
+        .v-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 2px; width: 100%;
+            background: var(--neon-pink);
+            animation: btnLoad 2s infinite linear;
+        }
+        @keyframes btnLoad { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        .terminal-content {
+            flex: 1;
+            padding: 40px;
+            background: radial-gradient(circle at center, rgba(30,0,30,1) 0%, rgba(0,0,0,1) 100%);
+        }
+
+        .content-panel {
+            display: none;
+            animation: panelIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+        }
+
+        .content-panel.active { display: block; }
+
+        @keyframes panelIn {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .btn-terminal {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: var(--font-tech);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-terminal:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+    </style>
+
+    <script>
+        // Função de troca de abas corrigida
+        function openV(evt, vName) {
+            const panels = document.querySelectorAll(".content-panel");
+            const buttons = document.querySelectorAll(".v-btn");
+
+            panels.forEach(p => p.classList.remove("active"));
+            buttons.forEach(b => b.classList.remove("active"));
+
+            document.getElementById(vName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Relógio
         setInterval(() => {
-            document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('pt-BR');
+            const clock = document.getElementById('live-clock');
+            if(clock) clock.innerText = new Date().toLocaleTimeString('pt-BR');
         }, 1000);
 
+        // Matrix Rain
         const canvas = document.getElementById('dataCanvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        const characters = "0101010101010101010101";
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
+        const columns = Math.floor(width / 15);
+        const drops = new Array(columns).fill(1);
 
         function drawMatrix() {
-            ctx.fillStyle = "rgba(5, 0, 5, 0.1)"; // Fundo Matrix ajustado
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#ff00ff"; // Matrix rosa
-            ctx.font = fontSize + "px monospace";
+            ctx.fillStyle = "rgba(5, 0, 5, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#ff00ff";
+            ctx.font = "15px monospace";
 
             for (let i = 0; i < drops.length; i++) {
-                const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                const text = Math.floor(Math.random() * 2);
+                ctx.fillText(text, i * 15, drops[i] * 15);
+                if (drops[i] * 15 > height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
         setInterval(drawMatrix, 50);
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
     </script>
 </body>
