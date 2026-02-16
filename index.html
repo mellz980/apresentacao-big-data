@@ -81,4 +81,193 @@
 
         .hero-title {
             font-family: var(--font-tech);
-            font-size: clamp(2rem, 1
+            font-size: clamp(2rem, 10vw, 5rem);
+            font-weight: 900;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px var(--neon-blue);
+            letter-spacing: 10px;
+            margin: 20px 0;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+
+        .section-header {
+            border-left: 4px solid var(--neon-purple);
+            padding-left: 15px; margin-bottom: 40px;
+            font-family: var(--font-tech);
+            color: var(--neon-blue);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--border-glass);
+            padding: 30px; border-radius: 15px;
+            backdrop-filter: blur(10px);
+            line-height: 1.8;
+        }
+
+        /* --- TERMINAL DOS 5 VS --- */
+        .terminal-container {
+            display: flex; flex-direction: row;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px; min-height: 450px;
+            overflow: hidden;
+        }
+
+        .terminal-sidebar {
+            width: 250px; background: rgba(0, 243, 255, 0.05);
+            border-right: 1px solid var(--border-glass);
+        }
+
+        .v-btn {
+            width: 100%; padding: 20px; background: transparent;
+            border: none; border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #aaa; font-family: var(--font-tech);
+            text-align: left; cursor: pointer; transition: 0.3s;
+        }
+
+        .v-btn:hover, .v-btn.active {
+            background: var(--neon-blue); color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .terminal-content { flex: 1; padding: 40px; }
+
+        .content-panel { display: none; animation: slideIn 0.4s ease-out; }
+        .content-panel.active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .data-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;
+        }
+
+        .data-item {
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px;
+            border-left: 3px solid var(--neon-purple);
+        }
+
+        footer {
+            text-align: center; padding: 60px; border-top: 1px solid var(--border-glass);
+            font-family: var(--font-tech); font-size: 0.8rem; color: #555;
+        }
+
+        /* Responsividade básica */
+        @media (max-width: 768px) {
+            .terminal-container { flex-direction: column; }
+            .terminal-sidebar { width: 100%; display: flex; overflow-x: auto; }
+            .v-btn { white-space: nowrap; padding: 15px; }
+            .data-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+
+    <header>
+        <div class="tech-grid-3d"></div>
+        <div class="header-content">
+            <p style="color: var(--neon-purple); letter-spacing: 5px;">[ STATUS: OPERACIONAL ]</p>
+            <h1 class="hero-title">BIG DATA</h1>
+            <p style="font-family: var(--font-tech);">SISTEMA DE ANÁLISE QUANTUM v2.6</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section style="margin-bottom: 80px;">
+            <div class="section-header"><h2>OBJETIVO ESTRATÉGICO</h2></div>
+            <div class="glass-card">
+                O <strong>Big Data</strong> não é apenas sobre volume, é sobre a capacidade de extrair inteligência do caos digital. Como jornalista, Lívia, você sabe que o dado é a nova pauta: processar petabytes em segundos permite que empresas e governos antecipem crises e comportamentos antes mesmo que eles aconteçam.
+            </div>
+        </section>
+
+        <section id="v5-system">
+            <div class="section-header"><h2>ARQUITETURA DOS 5Vs</h2></div>
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')"><i class="fas fa-database"></i> VOLUME</button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')"><i class="fas fa-bolt"></i> VELOCIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')"><i class="fas fa-share-nodes"></i> VARIEDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')"><i class="fas fa-shield-check"></i> VERACIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'valor')"><i class="fas fa-gem"></i> VALOR</button>
+                </div>
+
+                <div class="terminal-content">
+                    <div id="volume" class="content-panel active">
+                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VOLUME</h2>
+                        <p>Refere-se à quantidade astronômica de dados gerados a cada milissegundo.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Escala:</strong> Zettabytes e Petabytes.</div>
+                            <div class="data-item"><strong>Fontes:</strong> Redes sociais, IoT e logs.</div>
+                        </div>
+                    </div>
+
+                    <div id="velocidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VELOCIDADE</h2>
+                        <p>A rapidez com que os dados chegam e precisam ser analisados.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Streaming:</strong> Processamento via Apache Kafka.</div>
+                            <div class="data-item"><strong>Tempo Real:</strong> Análise instantânea.</div>
+                        </div>
+                    </div>
+
+                    <div id="variedade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VARIEDADE</h2>
+                        <p>Diferentes formatos: fotos, áudios, textos e tabelas.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>NoSQL:</strong> Bancos de dados flexíveis.</div>
+                            <div class="data-item"><strong>Não estruturados:</strong> 80% dos dados mundiais.</div>
+                        </div>
+                    </div>
+
+                    <div id="veracidade" class="content-panel">
+                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VERACIDADE</h2>
+                        <p>A qualidade e a confiabilidade da informação coletada.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Limpeza:</strong> Eliminação de "ruído" digital.</div>
+                            <div class="data-item"><strong>Auditoria:</strong> Rastreabilidade do dado.</div>
+                        </div>
+                    </div>
+
+                    <div id="valor" class="content-panel">
+                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VALOR</h2>
+                        <p>O retorno útil que o dado traz para o negócio ou pauta.</p>
+                        <div class="data-grid">
+                            <div class="data-item"><strong>Insights:</strong> Decisões baseadas em fatos.</div>
+                            <div class="data-item"><strong>Monetização:</strong> Transformar bits em lucro.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 | FUTURE DATA INTERFACE | BY LÍVIA</p>
+        <p style="color: var(--neon-blue); margin-top: 10px; font-size: 0.7rem;">ENCRYPTED CONNECTION: ACTIVE</p>
+    </footer>
+
+    <script>
+        function openV(evt, vName) {
+            // Esconde todos os painéis
+            const panels = document.querySelectorAll(".content-panel");
+            panels.forEach(p => p.classList.remove("active"));
+
+            // Remove classe ativa de todos os botões
+            const buttons = document.querySelectorAll(".v-btn");
+            buttons.forEach(b => b.classList.remove("active"));
+
+            // Mostra o painel atual e marca o botão
+            document.getElementById(vName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
