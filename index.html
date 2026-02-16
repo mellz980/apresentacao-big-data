@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIG DATA | FUTURE INTERFACE</title>
+    <title>BIG DATA | ULTIMATE NEON INTERFACE</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-dark: #020205;
+            --bg-dark: #010103;
             --neon-purple: #bc13fe;
             --neon-blue: #00f3ff;
+            --neon-green: #39ff14;
+            --neon-pink: #ff00ff;
             --glass: rgba(0, 243, 255, 0.05);
             --border-glass: rgba(0, 243, 255, 0.2);
             --font-main: 'Fira Code', monospace;
@@ -28,21 +30,20 @@
             overflow-x: hidden;
         }
 
-        /* --- LINHA DE SCANNER ANIMADA --- */
+        /* --- ANIMAÇÕES DE FUNDO --- */
         .scanline {
-            width: 100%; height: 5px; z-index: 1000; pointer-events: none;
-            background: var(--neon-blue);
-            opacity: 0.1; position: fixed;
-            box-shadow: 0 0 10px var(--neon-blue);
-            animation: scanlineMove 5s linear infinite;
+            width: 100%; height: 10px; z-index: 1000; pointer-events: none;
+            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent);
+            opacity: 0.15; position: fixed;
+            animation: scanlineMove 4s linear infinite;
         }
 
         @keyframes scanlineMove {
-            0% { top: -1%; }
-            100% { top: 100%; }
+            0% { top: -10%; }
+            100% { top: 110%; }
         }
 
-        /* --- HEADER COM ANIMAÇÃO 3D --- */
+        /* --- HEADER ULTRA ANIMADO --- */
         header {
             height: 100vh;
             position: relative;
@@ -50,224 +51,174 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
-            background: #000;
+            perspective: 1200px;
+            background: radial-gradient(circle at center, #050a15 0%, #000 100%);
         }
 
+        /* Grade 3D com Pulso Neon */
         .tech-grid-3d {
             position: absolute;
             width: 200%; height: 200%;
             top: -50%; left: -50%;
             background-image: 
-                linear-gradient(transparent 0%, rgba(0, 243, 255, 0.2) 1px, transparent 2%),
+                linear-gradient(transparent 0%, rgba(0, 243, 255, 0.3) 1px, transparent 2%),
                 linear-gradient(90deg, transparent 0%, rgba(188, 19, 254, 0.2) 1px, transparent 2%);
-            background-size: 60px 60px;
-            transform: rotateX(65deg);
-            animation: moveGrid 3s linear infinite;
+            background-size: 80px 80px;
+            transform: rotateX(70deg);
+            animation: moveGrid 2s linear infinite, pulseGrid 4s ease-in-out infinite alternate;
             z-index: 1;
         }
 
         @keyframes moveGrid {
             0% { background-position: 0 0; }
-            100% { background-position: 0 60px; }
+            100% { background-position: 0 80px; }
         }
 
+        @keyframes pulseGrid {
+            from { opacity: 0.4; }
+            to { opacity: 0.8; filter: hue-rotate(45deg); }
+        }
+
+        /* --- ELEMENTOS DE HUD (INFORMAÇÕES EXTRAS) --- */
+        .hud-element {
+            position: absolute;
+            padding: 15px;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            font-family: var(--font-tech);
+            border: 1px solid var(--border-glass);
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 15;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .top-left { top: 20px; left: 20px; border-left: 4px solid var(--neon-green); }
+        .top-right { top: 20px; right: 20px; border-right: 4px solid var(--neon-pink); text-align: right; }
+        .bottom-left { bottom: 20px; left: 20px; border-bottom: 4px solid var(--neon-purple); }
+
+        .glitch-text { animation: textGlitch 2s infinite; }
+
+        @keyframes textGlitch {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; transform: skew(2deg); }
+            52% { opacity: 1; transform: skew(0); }
+            100% { opacity: 1; }
+        }
+
+        /* --- CONTEÚDO CENTRAL --- */
         .header-content {
             z-index: 10;
             text-align: center;
-            background: radial-gradient(circle, rgba(2, 2, 5, 0.9) 30%, transparent 70%);
-            padding: 40px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.95) 20%, transparent 80%);
+            padding: 60px;
+            border-radius: 50%;
+            box-shadow: 0 0 100px rgba(0, 243, 255, 0.1);
         }
 
         .hero-title {
             font-family: var(--font-tech);
-            font-size: clamp(2rem, 10vw, 5rem);
+            font-size: clamp(3rem, 12vw, 7rem);
             font-weight: 900;
-            color: var(--neon-blue);
-            text-shadow: 0 0 20px var(--neon-blue);
-            letter-spacing: 10px;
-            margin: 20px 0;
+            color: #fff;
+            text-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--neon-purple);
+            letter-spacing: 20px;
+            margin-bottom: 10px;
+            animation: titleFloat 3s ease-in-out infinite alternate;
         }
 
-        /* --- CONTEÚDO PRINCIPAL --- */
+        @keyframes titleFloat {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        /* Métricas na primeira página */
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            background: rgba(0, 243, 255, 0.05);
+            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .stat-box small {
+            font-size: 0.6rem;
+            color: #888;
+        }
+
+        /* --- BOTÃO DE SCROLL --- */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* --- RESTO DO SITE (ESTILO REFORÇADO) --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
 
-        .section-header {
-            border-left: 4px solid var(--neon-purple);
-            padding-left: 15px; margin-bottom: 40px;
-            font-family: var(--font-tech);
-            color: var(--neon-blue);
-        }
-
         .glass-card {
-            background: var(--glass);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-glass);
-            padding: 30px; border-radius: 15px;
-            backdrop-filter: blur(10px);
-            line-height: 1.8;
+            padding: 40px; border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
-        /* --- TERMINAL DOS 5 VS --- */
+        .glass-card::after {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-blue), transparent, var(--neon-purple));
+            z-index: -1; border-radius: 22px; opacity: 0.3;
+        }
+
+        /* --- TERMINAL --- */
         .terminal-container {
             display: flex; flex-direction: row;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--border-glass);
-            border-radius: 10px; min-height: 450px;
-            overflow: hidden;
+            background: #000; border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            border-radius: 5px; min-height: 500px; overflow: hidden;
         }
 
-        .terminal-sidebar {
-            width: 250px; background: rgba(0, 243, 255, 0.05);
-            border-right: 1px solid var(--border-glass);
-        }
+        .terminal-sidebar { width: 250px; background: #050505; border-right: 1px solid var(--border-glass); }
 
         .v-btn {
-            width: 100%; padding: 20px; background: transparent;
-            border: none; border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #aaa; font-family: var(--font-tech);
-            text-align: left; cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 25px; background: transparent; border: none;
+            color: #666; font-family: var(--font-tech); cursor: pointer; transition: 0.3s;
+            text-align: left; position: relative;
         }
 
-        .v-btn:hover, .v-btn.active {
-            background: var(--neon-blue); color: #000;
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
+        .v-btn.active { color: var(--neon-blue); background: rgba(0, 243, 255, 0.1); }
+        .v-btn.active::before { content: '>'; position: absolute; left: 10px; color: var(--neon-green); }
 
-        .terminal-content { flex: 1; padding: 40px; }
-
-        .content-panel { display: none; animation: slideIn 0.4s ease-out; }
-        .content-panel.active { display: block; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .data-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;
-        }
+        .terminal-content { flex: 1; padding: 50px; background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
 
         .data-item {
-            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px;
-            border-left: 3px solid var(--neon-purple);
-        }
-
-        footer {
-            text-align: center; padding: 60px; border-top: 1px solid var(--border-glass);
-            font-family: var(--font-tech); font-size: 0.8rem; color: #555;
-        }
-
-        /* Responsividade básica */
-        @media (max-width: 768px) {
-            .terminal-container { flex-direction: column; }
-            .terminal-sidebar { width: 100%; display: flex; overflow-x: auto; }
-            .v-btn { white-space: nowrap; padding: 15px; }
-            .data-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="scanline"></div>
-
-    <header>
-        <div class="tech-grid-3d"></div>
-        <div class="header-content">
-            <p style="color: var(--neon-purple); letter-spacing: 5px;">[ STATUS: OPERACIONAL ]</p>
-            <h1 class="hero-title">BIG DATA</h1>
-            <p style="font-family: var(--font-tech);">SISTEMA DE ANÁLISE QUANTUM v2.6</p>
-        </div>
-    </header>
-
-    <div class="container">
-        
-        <section style="margin-bottom: 80px;">
-            <div class="section-header"><h2>OBJETIVO ESTRATÉGICO</h2></div>
-            <div class="glass-card">
-                O <strong>Big Data</strong> não é apenas sobre volume, é sobre a capacidade de extrair inteligência do caos digital. Como jornalista, Lívia, você sabe que o dado é a nova pauta: processar petabytes em segundos permite que empresas e governos antecipem crises e comportamentos antes mesmo que eles aconteçam.
-            </div>
-        </section>
-
-        <section id="v5-system">
-            <div class="section-header"><h2>ARQUITETURA DOS 5Vs</h2></div>
-            <div class="terminal-container">
-                <div class="terminal-sidebar">
-                    <button class="v-btn active" onclick="openV(event, 'volume')"><i class="fas fa-database"></i> VOLUME</button>
-                    <button class="v-btn" onclick="openV(event, 'velocidade')"><i class="fas fa-bolt"></i> VELOCIDADE</button>
-                    <button class="v-btn" onclick="openV(event, 'variedade')"><i class="fas fa-share-nodes"></i> VARIEDADE</button>
-                    <button class="v-btn" onclick="openV(event, 'veracidade')"><i class="fas fa-shield-check"></i> VERACIDADE</button>
-                    <button class="v-btn" onclick="openV(event, 'valor')"><i class="fas fa-gem"></i> VALOR</button>
-                </div>
-
-                <div class="terminal-content">
-                    <div id="volume" class="content-panel active">
-                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VOLUME</h2>
-                        <p>Refere-se à quantidade astronômica de dados gerados a cada milissegundo.</p>
-                        <div class="data-grid">
-                            <div class="data-item"><strong>Escala:</strong> Zettabytes e Petabytes.</div>
-                            <div class="data-item"><strong>Fontes:</strong> Redes sociais, IoT e logs.</div>
-                        </div>
-                    </div>
-
-                    <div id="velocidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VELOCIDADE</h2>
-                        <p>A rapidez com que os dados chegam e precisam ser analisados.</p>
-                        <div class="data-grid">
-                            <div class="data-item"><strong>Streaming:</strong> Processamento via Apache Kafka.</div>
-                            <div class="data-item"><strong>Tempo Real:</strong> Análise instantânea.</div>
-                        </div>
-                    </div>
-
-                    <div id="variedade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VARIEDADE</h2>
-                        <p>Diferentes formatos: fotos, áudios, textos e tabelas.</p>
-                        <div class="data-grid">
-                            <div class="data-item"><strong>NoSQL:</strong> Bancos de dados flexíveis.</div>
-                            <div class="data-item"><strong>Não estruturados:</strong> 80% dos dados mundiais.</div>
-                        </div>
-                    </div>
-
-                    <div id="veracidade" class="content-panel">
-                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VERACIDADE</h2>
-                        <p>A qualidade e a confiabilidade da informação coletada.</p>
-                        <div class="data-grid">
-                            <div class="data-item"><strong>Limpeza:</strong> Eliminação de "ruído" digital.</div>
-                            <div class="data-item"><strong>Auditoria:</strong> Rastreabilidade do dado.</div>
-                        </div>
-                    </div>
-
-                    <div id="valor" class="content-panel">
-                        <h2 style="color: var(--neon-blue); margin-bottom: 10px;">VALOR</h2>
-                        <p>O retorno útil que o dado traz para o negócio ou pauta.</p>
-                        <div class="data-grid">
-                            <div class="data-item"><strong>Insights:</strong> Decisões baseadas em fatos.</div>
-                            <div class="data-item"><strong>Monetização:</strong> Transformar bits em lucro.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 | FUTURE DATA INTERFACE | BY LÍVIA</p>
-        <p style="color: var(--neon-blue); margin-top: 10px; font-size: 0.7rem;">ENCRYPTED CONNECTION: ACTIVE</p>
-    </footer>
-
-    <script>
-        function openV(evt, vName) {
-            // Esconde todos os painéis
-            const panels = document.querySelectorAll(".content-panel");
-            panels.forEach(p => p.classList.remove("active"));
-
-            // Remove classe ativa de todos os botões
-            const buttons = document.querySelectorAll(".v-btn");
-            buttons.forEach(b => b.classList.remove("active"));
-
-            // Mostra o painel atual e marca o botão
-            document.getElementById(vName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-    </script>
-</body>
-</html>
+            background: rgba(0, 243, 255, 0.05); padding: 20px; border: 1px solid rgba(0, 243, 255, 0.1);
+            margin-top: 15px; border-left: 5px solid var(--neon-pink);
