@@ -238,22 +238,31 @@ h1, h2, h3, h4, .logo {
     margin-bottom: 20px;
 }
 
-/* ================= OS 5 V's ================= */
 .v-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    display: grid;
+    /* Faz as caixas terem pelo menos 300px de largura, preenchendo o espaço disponível */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    
+    /* Espaço entre um card e outro */
+    gap: 30px; 
+    
+    /* Largura máxima da grade para não esticar infinitamente em telas gigantes */
     max-width: 1200px;
+    margin: 0 auto; /* Centraliza a grade na tela */
 }
 .v-card {
-    background: rgba(10, 10, 10, 0.6);
-    border: 1px solid #222;
-    padding: 30px;
-    width: 220px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    /* 1. Espaçamento interno: afasta o texto das bordas */
+    padding: 30px; 
+    
+    /* 2. Altura flexível: define um mínimo, mas deixa crescer se o texto for gigante */
+    min-height: 250px; 
+    height: auto; 
+    
+    /* 3. Respiro entre as linhas do texto (melhora muito a leitura) */
+    line-height: 1.6; 
+    
+    /* (Opcional) Arredondar as bordas para um visual mais moderno */
+    border-radius: 12px; 
 }
 .v-card h3 {
     font-size: 1.5rem;
