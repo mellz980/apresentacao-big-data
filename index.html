@@ -3,152 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIG DATA | O Poder dos Dados</title>
+    <title>BIG DATA | O Combustível do Futuro</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <div id="particles-js"></div>
 
-    <nav id="navbar">
-        <div class="logo">BD<span>.Core</span></div>
+    <nav class="navbar glass">
+        <div class="logo">DATA<span>.NEXUS</span></div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#conceito">Conceito</a></li>
-            <li><a href="#cinco-vs">Os 5 V's</a></li>
-            <li><a href="#argumentacao">Argumentação</a></li>
+            <li><a href="#5vs">Os 5 V's</a></li>
+            <li><a href="#argumentacao">Por que adotar?</a></li>
             <li><a href="#demonstracao">Demonstração</a></li>
         </ul>
     </nav>
 
-    <header id="home" class="section hero">
+    <section id="home" class="hero">
         <div class="hero-content">
             <h1 class="glitch" data-text="BIG DATA">BIG DATA</h1>
-            <h2 class="neon-text-purple">O Poder dos Dados</h2>
-            <p>Transformando o caos invisível em inteligência acionável e vantagem competitiva absoluta.</p>
-            <a href="#conceito" class="btn-neon">Explorar o Sistema <i class="fas fa-arrow-right"></i></a>
+            <p class="subtitle">O combustível da inteligência moderna.</p>
+            <a href="#conceito" class="neon-btn">Explorar o Futuro</a>
         </div>
-    </header>
+    </section>
 
     <section id="conceito" class="section">
-        <div class="container">
-            <h2 class="section-title">O que é <span class="neon-text-pink">Big Data</span>?</h2>
-            <div class="concept-grid">
-                <div class="card concept-card">
-                    <i class="fas fa-database neon-icon-purple"></i>
-                    <h3>A Nova Matéria-Prima</h3>
-                    <p>Conjuntos de dados tão grandes e complexos que exigem processamento não tradicional para capturar, gerenciar e processar em tempo hábil.</p>
-                </div>
-                <div class="card concept-card">
-                    <i class="fas fa-network-wired neon-icon-pink"></i>
-                    <h3>Impacto Estrutural</h3>
-                    <p>Muda a forma como empresas operam, substituindo a intuição por decisões guiadas por algoritmos e correlações invisíveis a olho nu.</p>
-                </div>
+        <h2 class="section-title">A Nova <span class="text-gradient-purple-pink">Matéria-Prima</span></h2>
+        <div class="cards-container">
+            <div class="glass-card tilt-card">
+                <div class="icon-neon text-gradient-blue">01</div>
+                <h3>O que é?</h3>
+                <p>Muito além de planilhas. É um oceano de informações não estruturadas, processadas em milissegundos por algoritmos avançados para revelar padrões ocultos.</p>
+            </div>
+            <div class="glass-card tilt-card">
+                <div class="icon-neon text-gradient-pink">02</div>
+                <h3>Por que existe?</h3>
+                <p>O mundo gera 2.5 quintilhões de bytes por dia. O Big Data nasceu da necessidade de transformar esse caos digital em inteligência acionável.</p>
+            </div>
+            <div class="glass-card tilt-card">
+                <div class="icon-neon text-gradient-purple">03</div>
+                <h3>O Impacto</h3>
+                <p>Empresas que não adotam análise de dados estão navegando às cegas. O Big Data é a diferença entre reagir ao mercado e ditar o futuro.</p>
             </div>
         </div>
     </section>
 
-    <section id="cinco-vs" class="section">
-        <div class="container">
-            <h2 class="section-title">A Matriz dos <span class="neon-text-purple">5 V's</span></h2>
-            <div class="vs-grid">
-                <div class="card v-card">
-                    <i class="fas fa-server"></i>
-                    <h3>Volume</h3>
-                    <p>A escala massiva de dados gerados a cada segundo por máquinas, redes e interações humanas.</p>
-                </div>
-                <div class="card v-card">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Velocidade</h3>
-                    <p>O fluxo em tempo real. Os dados devem ser analisados no momento em que são gerados para terem utilidade.</p>
-                </div>
-                <div class="card v-card">
-                    <i class="fas fa-shapes"></i>
-                    <h3>Variedade</h3>
-                    <p>A multiplicidade de formatos: textos, vídeos, áudios, sensores IoT e dados não estruturados.</p>
-                </div>
-                <div class="card v-card">
-                    <i class="fas fa-check-double"></i>
-                    <h3>Veracidade</h3>
-                    <p>A confiabilidade da informação. Filtrar ruídos para garantir a qualidade analítica.</p>
-                </div>
-                <div class="card v-card highlight-card">
-                    <i class="fas fa-gem"></i>
-                    <h3>Valor</h3>
-                    <p>O objetivo final. Transformar terabytes de números em insights que geram lucro e inovação.</p>
-                </div>
+    <section id="5vs" class="section">
+        <h2 class="section-title">A Estrutura: <span class="text-gradient-purple-blue">Os 5 V's</span></h2>
+        <div class="v-grid">
+            <div class="v-card tilt-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+                <h3 class="neon-text-blue">Volume</h3>
+                <p>A escala massiva de dados gerados a cada segundo por sensores, redes e transações.</p>
+            </div>
+            <div class="v-card tilt-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+                <h3 class="neon-text-pink">Velocidade</h3>
+                <p>O fluxo em tempo real. A rapidez com que os dados são criados, processados e analisados.</p>
+            </div>
+            <div class="v-card tilt-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+                <h3 class="neon-text-purple">Variedade</h3>
+                <p>Múltiplos formatos: textos, vídeos, áudios, logs de sistemas e dados biométricos.</p>
+            </div>
+            <div class="v-card tilt-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+                <h3 class="neon-text-blue">Veracidade</h3>
+                <p>A confiabilidade e autenticidade da informação. Filtrar o ruído para encontrar a verdade.</p>
+            </div>
+            <div class="v-card tilt-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+                <h3 class="neon-text-pink">Valor</h3>
+                <p>O objetivo final. Transformar dados brutos em lucro, inovação e vantagem competitiva.</p>
             </div>
         </div>
     </section>
 
-    <section id="argumentacao" class="section">
-        <div class="container">
-            <h2 class="section-title">Por que sua empresa precisa de <span class="neon-text-pink">Big Data</span>?</h2>
-            <p class="section-subtitle">O diferencial entre dominar o mercado ou se tornar obsoleto.</p>
-            
-            <div class="args-grid">
-                <div class="card arg-card">
-                    <div class="stat-circle">90%</div>
-                    <h3>Decisão Precisa</h3>
-                    <p>Empresas orientadas a dados reduzem riscos drásticamente, baseando estratégias em fatos, não em palpites.</p>
-                </div>
-                <div class="card arg-card">
-                    <div class="stat-circle"><i class="fas fa-trophy"></i></div>
-                    <h3>Vantagem Competitiva</h3>
-                    <p>Antecipe os movimentos dos concorrentes e identifique nichos de mercado inexplorados antes de todos.</p>
-                </div>
-                <div class="card arg-card">
-                    <div class="stat-circle"><i class="fas fa-chart-line"></i></div>
-                    <h3>Previsão de Tendências</h3>
-                    <p>Algoritmos preditivos encontram padrões de consumo futuros, permitindo inovação proativa.</p>
-                </div>
-                <div class="card arg-card">
-                    <div class="stat-circle"><i class="fas fa-hand-holding-dollar"></i></div>
-                    <h3>Redução de Custos</h3>
-                    <p>Otimização de logística, controle de estoque inteligente e prevenção de falhas operacionais.</p>
-                </div>
-                <div class="card arg-card wide-card">
-                    <div class="stat-circle"><i class="fas fa-user-astronaut"></i></div>
-                    <h3>Hiper-Personalização</h3>
-                    <p>Ofereça exatamente o que o cliente quer, no momento exato em que ele precisa. Experiências únicas geram fidelidade inquebrável.</p>
-                </div>
+    <section id="argumentacao" class="section argumentation">
+        <h2 class="section-title">Por que sua empresa precisa de <span class="text-gradient-pink-purple">Big Data AGORA</span></h2>
+        <div class="arg-grid">
+            <div class="arg-item tilt-card">
+                <div class="arg-number" data-target="85">0</div><span>%</span>
+                <h4>Vantagem Competitiva</h4>
+                <p>Empresas orientadas a dados são mais lucrativas e capturam mais mercado.</p>
+            </div>
+            <div class="arg-item tilt-card">
+                <div class="arg-number" data-target="300">0</div><span>%</span>
+                <h4>Previsão de Comportamento</h4>
+                <p>Antecipe as necessidades do seu cliente antes mesmo que ele saiba o que quer.</p>
+            </div>
+            <div class="arg-item tilt-card">
+                <div class="arg-number" data-target="60">0</div><span>%</span>
+                <h4>Redução de Riscos</h4>
+                <p>Modelos preditivos que identificam falhas, fraudes e crises antes que ocorram.</p>
             </div>
         </div>
+        <p class="arg-conclusion">Não é uma questão de <strong>SE</strong> você vai adotar o Big Data, mas de <strong>QUANDO</strong> você será engolido pelos concorrentes que já adotaram.</p>
     </section>
 
-    <section id="demonstracao" class="section">
-        <div class="demo-content container text-center">
-            <h2 class="section-title">Ver <span class="neon-text-purple">Big Data</span> em ação</h2>
-            <p>Acesse o painel holográfico de análise de dados em tempo real.</p>
-            <a href="#" class="btn-neon btn-large">
-                <i class="fas fa-play"></i> INICIAR DEMONSTRAÇÃO
-            </a>
-        </div>
+    <section id="demonstracao" class="section demo-section glass">
+        <h2 class="section-title">Veja o Big Data <span class="text-gradient-blue-purple">Em Ação</span></h2>
+        <p>Acesse o painel interativo e descubra como transformamos dados em decisões.</p>
+        <a href="#" class="btn-mega-neon">VER DEMONSTRAÇÃO</a>
     </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="logo">BD<span>.Core</span></div>
-            <p class="cyber-text">Sistema Online // Protocolo de Apresentação Ativo</p>
-            <p>Site desenvolvido como material de apoio para apresentação e debate sobre Big Data.</p>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026. Transmissão criptografada.</p>
-        </div>
+    <footer class="footer">
+        <div class="footer-glow"></div>
+        <p>Projeto desenvolvido para apresentação e debate estratégico sobre Big Data.</p>
+        <p class="hologram-text">Status: <span>SISTEMA ONLINE</span></p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
-
