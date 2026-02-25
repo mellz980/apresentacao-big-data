@@ -386,3 +386,38 @@ h1, h2, h3, h4, .logo {
     .cursor-dot, .cursor-outline { display: none; } /* Remove cursor em mobile */
     * { cursor: auto; }
 }
+/* ================= AJUSTE DE TAMANHO: SEÇÃO 5 V's ================= */
+
+/* 1. Aumenta a altura total da seção e o espaçamento (respiro) */
+#5vs {
+    min-height: 120vh; /* Ocupa 120% da altura da tela */
+    padding-top: 160px;
+    padding-bottom: 160px;
+}
+
+/* 2. Expande o grid para os cards não ficarem espremidos no centro */
+#5vs .v-grid {
+    gap: 40px; /* Dobra o espaço entre os cards (antes era 20px) */
+    max-width: 1400px; /* Permite que os cards se espalhem mais horizontalmente */
+}
+
+/* 3. Deixa os cards maiores e centraliza o texto dentro deles */
+#5vs .v-card {
+    padding: 40px 30px; /* Mais espaço interno */
+    width: 260px; /* Cards mais largos (antes era 220px) */
+    min-height: 240px; /* Altura mínima para deixá-los mais robustos */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Mantém o título e o texto bem centralizados */
+}
+
+/* 4. Aumenta levemente a fonte dentro dos cards maiores */
+#5vs .v-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+#5vs .v-card p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
