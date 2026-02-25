@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIG DATA | APRESENTAÇÃO </title>
+    <title>BIG DATA | APRESENTAÇÃO</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-                --bg-dark: #050005;
-                --neon-purple: #b117b1;
-                --neon-blue: #c172ff;
-                --neon-green: #ff85d5;
-                --neon-pink: #ffb5ff;
-                --glass: rgba(255, 0, 255, 0.07);
-                --border-glass: rgba(255, 0, 255, 0.3);
-                --font-main: 'Fira Code', monospace;
-                --font-tech: 'Orbitron', sans-serif;
+            --bg-dark: #050005;
+            --neon-purple: #b117b1;
+            --neon-blue: #c172ff;
+            --neon-green: #ff85d5;
+            --neon-pink: #ffb5ff;
+            --glass: rgba(255, 0, 255, 0.07);
+            --border-glass: rgba(255, 0, 255, 0.3);
+            --font-main: 'Fira Code', monospace;
+            --font-tech: 'Orbitron', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* --- LOADER / TELA DE INICIALIZAÇÃO --- */
+        /* --- LOADER --- */
         #loader {
             position: fixed;
             top: 0; left: 0;
@@ -72,9 +72,9 @@
         }
 
         @keyframes blink { from { opacity: 0.5; } to { opacity: 1; text-shadow: 0 0 10px var(--neon-pink); } }
-        @keyframes loadProgress { 0% { width: 0%; } 40% { width: 30%; } 70% { width: 70%; } 100% { width: 100%; } }
+        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* --- BACKGROUND: DATA RAIN CANVAS --- */
+        /* --- BACKGROUND --- */
         #dataCanvas {
             position: absolute;
             top: 0; left: 0;
@@ -83,7 +83,6 @@
             opacity: 0.3;
         }
 
-        /* --- SCANLINE & OVERLAYS --- */
         .scanline {
             width: 100%; height: 10px; z-index: 1000; pointer-events: none;
             background: linear-gradient(to bottom, transparent, var(--neon-pink), transparent);
@@ -92,7 +91,7 @@
         }
         @keyframes scanlineMove { 0% { top: -10%; } 100% { top: 110%; } }
 
-        /* --- HEADER ULTRA ANIMADO --- */
+        /* --- HEADER --- */
         header {
             height: 100vh;
             position: relative;
@@ -108,18 +107,18 @@
             width: 200%; height: 200%;
             top: -50%; left: -50%;
             background-image:
-                linear-gradient(transparent 0%, rgba(255, 0, 255, 0.2) 1px, transparent 2%),
-                linear-gradient(90deg, transparent 0%, rgba(255, 45, 149, 0.1) 1px, transparent 2%);
+                linear-gradient(transparent 0%, rgba(255, 0, 255, 0.1) 1px, transparent 2%),
+                linear-gradient(90deg, transparent 0%, rgba(255, 45, 149, 0.05) 1px, transparent 2%);
             background-size: 80px 80px;
-            transform: rotateX(75deg);
+            transform: rotateX(60deg);
             animation: moveGrid 3s linear infinite;
             z-index: 1;
         }
         @keyframes moveGrid { 0% { background-position: 0 0; } 100% { background-position: 0 80px; } }
 
-        /* --- HUD ELEMENTS --- */
+        /* --- HUD --- */
         .hud-element {
-            position: absolute; padding: 15px; font-size: 0.65rem;
+            position: absolute; padding: 15px; font-size: 0.7rem;
             color: var(--neon-blue); font-family: var(--font-tech);
             border: 1px solid var(--border-glass); background: rgba(0, 0, 0, 0.8);
             z-index: 15; text-transform: uppercase; letter-spacing: 2px;
@@ -127,19 +126,268 @@
         }
         .top-left { top: 20px; left: 20px; border-left: 5px solid var(--neon-pink); }
         .top-right { top: 20px; right: 20px; border-right: 5px solid var(--neon-blue); text-align: right; }
-        .bottom-left { bottom: 20px; left: 20px; border-bottom: 5px solid var(--neon-purple); }
 
-        /* --- CENTRAL CONTENT --- */
-        .header-content {
-            z-index: 10; text-align: center;
-            padding: 50px; border-radius: 20px;
-        }
+        .header-content { z-index: 10; text-align: center; }
 
         .hero-title {
             font-family: var(--font-tech);
-            font-size: clamp(3rem, 12vw, 6.5rem);
+            font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-purple);
-            letter-spacing: clamp(10px, 5vw, 25px);
+            text-shadow: 0 0 15px var(--neon-pink);
+            letter-spacing: clamp(5px, 3vw, 20px);
+            margin-bottom: 15px;
+        }
+
+        .hero-stats {
+            display: flex; gap: 20px; justify-content: center; margin-top: 40px; flex-wrap: wrap;
+        }
+        .stat-box {
+            background: rgba(255, 0, 255, 0.04);
+            border: 1px solid var(--neon-blue);
+            padding: 30px;
+            min-width: 220px;
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+        .stat-box i { font-size: 2.5rem; color: var(--neon-blue); margin-bottom: 15px; }
+        .stat-box span { display: block; font-size: 2rem; color: var(--neon-pink); font-family: var(--font-tech); }
+
+        /* --- TERMINAL --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+
+        .terminal-container {
+            display: flex;
+            background: rgba(10, 0, 10, 0.95);
+            border: 1px solid var(--neon-blue);
+            border-radius: 4px;
+            min-height: 450px;
+            overflow: hidden;
+        }
+
+        .terminal-sidebar {
+            width: 240px;
+            background: rgba(15, 0, 15, 1);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .v-btn {
+            background: transparent; border: none; color: #888;
+            padding: 20px; text-align: left; font-family: var(--font-tech);
+            cursor: pointer; transition: 0.3s; font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .v-btn.active {
+            color: #fff;
+            background: rgba(255, 0, 127, 0.1);
+            border-left: 4px solid var(--neon-pink);
+        }
+
+        .terminal-content { flex: 1; padding: 40px; position: relative; }
+        .content-panel { display: none; animation: panelIn 0.3s ease-out forwards; }
+        .content-panel.active { display: block; }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.03); padding: 20px;
+            margin-top: 20px; border-left: 4px solid var(--neon-blue);
+            line-height: 1.6;
+        }
+
+        .btn-terminal {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 25px; border: 1px solid var(--neon-pink);
+            color: var(--neon-pink); font-family: var(--font-tech);
+            text-decoration: none; transition: 0.3s; margin-top: 20px;
+        }
+        .btn-terminal:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 20px var(--neon-pink); }
+
+        footer { text-align: center; padding: 80px 20px; }
+        .neon-box-footer {
+            display: inline-block; padding: 15px 30px;
+            border: 2px solid var(--neon-blue); border-radius: 8px;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container { flex-direction: column; }
+            .terminal-sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+            .v-btn { white-space: nowrap; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-text">INICIANDO SISTEMA...</div>
+        <div class="loader-bar-container">
+            <div class="loader-bar-fill"></div>
+        </div>
+    </div>
+
+    <div class="scanline"></div>
+
+    <header>
+        <canvas id="dataCanvas"></canvas>
+        <div class="tech-grid-3d"></div>
+
+        <div class="hud-element top-left">
+            USUÁRIOS_AUTORIZADOS:<br>
+            > MELISSA N. OLIVEIRA | DAVI L. BRAGA<br>
+            > LUCCA PANIAGUA | DAVI M. CHIEREGATE
+        </div>
+
+        <div class="hud-element top-right">
+            SISTEMA: ONLINE<br>
+            HORA: <span id="live-clock">00:00:00</span>
+        </div>
+
+        <div class="header-content">
+            <p style="color: var(--neon-blue); letter-spacing: 5px; margin-bottom: 10px; font-weight: bold;">[ APRESENTANDO ]</p>
+            <h1 class="hero-title">BIG DATA</h1>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <i class="fas fa-database"></i>
+                    <span>2.5Q</span>
+                    <p>BYTES / DIA</p>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-bolt"></i>
+                    <span>90%</span>
+                    <p>DADOS RECENTES</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section style="margin-bottom: 80px;">
+            <h2 style="font-family: var(--font-tech); color: var(--neon-purple); margin-bottom: 20px;">O QUE É BIG DATA?</h2>
+            <div style="background: rgba(20,0,20,0.6); padding: 30px; border: 1px solid var(--border-glass); border-radius: 4px;">
+                <p style="font-size: 1.2rem; line-height: 1.6;">
+                    O Big Data não é apenas tecnologia, é o <strong>conceito</strong> relacionado à capacidade tecnológica necessária para armazenar e processar grandes volumes de dados. Abaixo, explore os pilares dessa revolução:
+                </p>
+            </div>
+        </section>
+
+        <section id="terminal-v5">
+            <h2 style="font-family: var(--font-tech); color: var(--neon-pink); margin-bottom: 30px; letter-spacing: 3px;">
+                TERMINAL_DE_DADOS: OS 5 Vs
+            </h2>
+
+            <div class="terminal-container">
+                <div class="terminal-sidebar">
+                    <button class="v-btn active" onclick="openV(event, 'volume')">V1_VOLUME</button>
+                    <button class="v-btn" onclick="openV(event, 'velocidade')">V2_VELOCIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'variedade')">V3_VARIEDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'veracidade')">V4_VERACIDADE</button>
+                    <button class="v-btn" onclick="openV(event, 'valor')">V5_VALOR</button>
+                </div>
+
+                <div class="terminal-content">
+                    <div id="volume" class="content-panel active">
+                        <h3 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUANTIDADE BRUTA ]</h3>
+                        <div class="data-item">Refere-se à enorme quantidade de dados gerados constantemente. Escalas que ultrapassam Petabytes e exigem sistemas distribuídos para armazenamento.</div>
+                    </div>
+
+                    <div id="velocidade" class="content-panel">
+                        <h3 style="color: var(--neon-blue); font-family: var(--font-tech);">[ FLUXO EM TEMPO REAL ]</h3>
+                        <div class="data-item">A rapidez com que os dados são criados e analisados. Essencial para decisões imediatas, como detecção de fraudes bancárias.</div>
+                    </div>
+
+                    <div id="variedade" class="content-panel">
+                        <h3 style="color: var(--neon-blue); font-family: var(--font-tech);">[ CAOS ESTRUTURADO ]</h3>
+                        <div class="data-item">Dados em múltiplos formatos: tabelas (SQL), arquivos JSON, imagens, vídeos e áudios de redes sociais.</div>
+                    </div>
+
+                    <div id="veracidade" class="content-panel">
+                        <h3 style="color: var(--neon-blue); font-family: var(--font-tech);">[ QUALIDADE DO DADO ]</h3>
+                        <div class="data-item">A confiabilidade da informação. Envolve processos de limpeza e filtragem para evitar decisões baseadas em ruídos ou erros.</div>
+                    </div>
+
+                    <div id="valor" class="content-panel">
+                        <h3 style="color: var(--neon-blue); font-family: var(--font-tech);">[ O PROPÓSITO FINAL ]</h3>
+                        <div class="data-item">Transformar dados brutos em insights estratégicos. O Big Data só faz sentido se gerar vantagem competitiva ou conhecimento.</div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://science.nasa.gov/eyes/" target="_blank" class="btn-terminal">
+                <i class="fas fa-external-link-alt"></i> VER DEMONSTRAÇÃO NASA
+            </a>
+        </section>
+    </div>
+
+    <footer>
+        <div class="neon-box-footer">
+            <h2 style="font-family: var(--font-tech); color: #fff; margin:0;">POR QUE BIG DATA?</h2>
+        </div>
+        <p style="margin-top: 20px; opacity: 0.7;">A resposta está no <strong>valor</strong> extraído do caos informacional.</p>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 1000);
+            }, 2000);
+        });
+
+        // Tabs
+        function openV(evt, vName) {
+            document.querySelectorAll(".content-panel").forEach(p => p.classList.remove("active"));
+            document.querySelectorAll(".v-btn").forEach(b => b.classList.remove("active"));
+            document.getElementById(vName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Clock
+        setInterval(() => {
+            document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('pt-BR');
+        }, 1000);
+
+        // Matrix Effect
+        const canvas = document.getElementById('dataCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const columns = Math.floor(width / 20);
+        const drops = new Array(columns).fill(1);
+
+        function draw() {
+            ctx.fillStyle = "rgba(5, 0, 5, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#b117b1";
+            ctx.font = "15px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = Math.floor(Math.random() * 2);
+                ctx.fillText(text, i * 20, drops[i] * 20);
+                if (drops[i] * 20 > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 50);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
 
